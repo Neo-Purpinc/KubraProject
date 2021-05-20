@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form class="form" method="" action="">
+                    <form class="form" method="post" action="connexion">
                         <div class="card-content">
                             <div class="input-group no-border form-control-lg">
                                 <div class="input-group-prepend">
