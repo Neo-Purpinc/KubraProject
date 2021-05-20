@@ -1,0 +1,55 @@
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(30,30,47,0.5);
+}
+.btn-perso{
+    background: white;
+    color: #BA54F5;
+}
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+.content{
+    position : fixed;
+    top:0;
+    width:100%;
+    height: 100%;
+}
+.txt-20px{
+    font-size: 20px;
+    margin:0 auto;
+}
+.semi-colon{
+    width: 50%;
+}
+.margin-top-3rem{
+    margin-top: 3rem;
+}
+.carousel-indicators li{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative;
+    top:10px;
+}
+.modal .modal-profile {
+    width: 70px;
+    height: 70px;
+    background-color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 5.7;
+    box-shadow: 0 5px 50px 0 rgba(0,0,0,.3);
+}
+
+.form-check-sign{
+    background: rgb(30,30,47);
+    color:white;
+}
