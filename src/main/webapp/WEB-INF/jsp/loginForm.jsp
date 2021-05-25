@@ -22,23 +22,22 @@
                                         <i class="tim-icons icon-single-02"></i>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Adresse e-mail" required>
+                                <input type="text" class="form-control" id="emailLogin" name="emailLogin" placeholder="Adresse e-mail" required>
+                                <span class="erreur">${form.erreurs['emailLogin']}</span>
                             </div>
-
                             <div class="input-group no-border form-control-lg">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <i class="tim-icons icon-key-25"></i>
                                     </div>
                                 </div>
-                                <input type="password" placeholder="Mot de passe" class="form-control" required>
+                                <input type="password" class="form-control" id="motdepasseLogin" name="motdepasseLogin" placeholder="Mot de passe" required>
+                                <span class="erreur">${form.erreurs['motdepasseLogin']}</span>
                             </div>
 
                         </div>
+                        <input type="submit" value="Connexion" class="btn btn-neutral btn-round btn-lg btn-block">
                     </form>
-                </div>
-                <div class="modal-footer text-center pt-4">
-                    <a href="#pablo" class="btn btn-neutral btn-round btn-lg btn-block">Connexion</a>
                 </div>
             </div>
         </div>

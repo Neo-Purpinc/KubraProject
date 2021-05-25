@@ -6,13 +6,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.colne.kubra.beans.Utilisateur;
+import com.colne.kubra.dao.DAOException;
+import com.colne.kubra.dao.UtilisateurDao;
+import org.jasypt.util.password.ConfigurablePasswordEncryptor;
 
 public final class ConnexionForm {
-    private static final String CHAMP_EMAIL  = "email";
-    private static final String CHAMP_PASS   = "motdepasse";
-
+    private static final String CHAMP_EMAIL  = "emailLogin";
+    private static final String CHAMP_PASS   = "motdepasseLogin";
+    private static final String ALGO_CHIFFREMENT = "SHA-256";
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
+    private UtilisateurDao      utilisateurDao;
+    public ConnexionForm(UtilisateurDao utilisateurDao) { this.utilisateurDao = utilisateurDao; }
 
     public String getResultat() {
         return resultat;
@@ -26,63 +31,95 @@ public final class ConnexionForm {
         /* Récupération des champs du formulaire */
         String email = getValeurChamp( request, CHAMP_EMAIL );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
+        Utilisateur utilisateur = null;
 
-        Utilisateur utilisateur = new Utilisateur();
-
-        /* Validation du champ email. */
-        try {
-            validationEmail( email );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_EMAIL, e.getMessage() );
-        }
-        utilisateur.setEmail( email );
-
-        /* Validation du champ mot de passe. */
-        try {
-            validationMotDePasse( motDePasse );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_PASS, e.getMessage() );
-        }
-        utilisateur.setMotDePasse( motDePasse );
-
-        /* Initialisation du résultat global de la validation. */
-        if ( erreurs.isEmpty() ) {
-            resultat = "Succès de la connexion.";
-        } else {
-            resultat = "Échec de la connexion.";
+        try{
+            traiterEmail(email);
+            traiterMotDePasse(motDePasse,email);
+            /* Initialisation du résultat global de la validation. */
+            if (erreurs.isEmpty()){
+                resultat = "<div class=\"form-group has-success\">\n" +
+                            "   <input type=\"text\" value=\"Succès de la connexion\" class=\"form-control form-control-success\" />\n" +
+                            "</div>.";
+                /* Connexion de l'utilisateur*/
+                utilisateur = utilisateurDao.trouver(email);
+            } else {
+                resultat =  "<div class=\"form-group has-danger\">\n" +
+                            "   <input type=\"email\" value=\"Echec de la connexion.\" class=\"form-control form-control-danger\" />\n" +
+                            "</div>";
+            }
+        } catch (DAOException e){
+            resultat =  "<div class=\"form-group has-danger\">\n" +
+                        "   <input type=\"email\" value=\"Échec de la connexion : une erreur imprévue est survenue, merci de réessayer dans quelques instants.\" class=\"form-control form-control-danger\" />\n" +
+                        "</div>";
+            e.printStackTrace();
         }
 
         return utilisateur;
     }
 
-    /**
-     * Valide l'adresse email saisie.
+    /*
+     * Appel à la validation de l'adresse email reçue et initialisation de la
+     * propriété email du bean
      */
-    private void validationEmail( String email ) throws Exception {
-        if ( email != null && !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-            throw new Exception( "Merci de saisir une adresse mail valide." );
+    private void traiterEmail( String email ) {
+        try {
+            validationEmail( email );
+        } catch ( FormValidationException e ) {
+            setErreur( CHAMP_EMAIL, e.getMessage() );
+        }
+    }
+
+    /*
+     * Appel à la validation des mots de passe reçus, chiffrement du mot de
+     * passe et initialisation de la propriété motDePasse du bean
+     */
+    private void traiterMotDePasse(String motDePasse, String email) {
+        /*
+         * Utilisation de la bibliothèque Jasypt pour chiffrer le mot de passe
+         * efficacement.
+         *
+         * L'algorithme SHA-256 est ici utilisé, avec par défaut un salage
+         * aléatoire et un grand nombre d'itérations de la fonction de hashage.
+         *
+         * La String retournée est de longueur 56 et contient le hash en Base64.
+         */
+        ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
+        passwordEncryptor.setAlgorithm( ALGO_CHIFFREMENT );
+        passwordEncryptor.setPlainDigest( false );
+        String motDePasseChiffre = passwordEncryptor.encryptPassword( motDePasse );
+        try {
+            validationMotDePasse(motDePasseChiffre,email);
+        } catch (FormValidationException e){
+            setErreur(CHAMP_EMAIL, e.getMessage());
         }
     }
 
     /**
-     * Valide le mot de passe saisi.
+     *
+     * @param motDePasseChiffre Le mot de passe entré par l'utilisateur
+     * @param email L'email saisi par l'utilisateur
+     * @throws FormValidationException
      */
-    private void validationMotDePasse( String motDePasse ) throws Exception {
-        if ( motDePasse != null ) {
-            if ( motDePasse.length() < 3 ) {
-                throw new Exception( "Le mot de passe doit contenir au moins 3 caractères." );
-            }
-        } else {
-            throw new Exception( "Merci de saisir votre mot de passe." );
+    private void validationMotDePasse(String motDePasseChiffre,String email) throws FormValidationException {
+        if (utilisateurDao.trouver(email).getMotDePasse() != motDePasseChiffre){
+            throw new FormValidationException("La combinaison email/mot de passe est inconnue.");
+        }
+    }
+
+    /**
+     * Valide l'adresse email saisie.
+     */
+    private void validationEmail( String email ) throws FormValidationException {
+        if(utilisateurDao.trouver(email) == null ){
+            throw new FormValidationException("L'adresse e-mail est inconnue.");
         }
     }
 
     /*
      * Ajoute un message correspondant au champ spécifié à la map des erreurs.
      */
-    private void setErreur( String champ, String message ) {
-        erreurs.put( champ, message );
-    }
+    private void setErreur( String champ, String message ) { erreurs.put( champ, message ); }
 
     /*
      * Méthode utilitaire qui retourne null si un champ est vide, et son contenu

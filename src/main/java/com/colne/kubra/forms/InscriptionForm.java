@@ -46,12 +46,18 @@ public final class InscriptionForm {
 
             if ( erreurs.isEmpty() ) {
                 utilisateurDao.creer( utilisateur );
-                resultat = "Succès de l'inscription.";
+                resultat =  "<div class=\"form-group has-success\">\n" +
+                            "   <input type=\"text\" value=\"Succès de l'inscription\" class=\"form-control form-control-success\" />\n" +
+                            "</div>.";
             } else {
-                resultat = "Échec de l'inscription.";
+                resultat =  "<div class=\"form-group has-danger\">\n" +
+                            "   <input type=\"email\" value=\"Echec de l'inscription.\" class=\"form-control form-control-danger\" />\n" +
+                            "</div>";
             }
         } catch ( DAOException e ) {
-            resultat = "Échec de l'inscription : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+            resultat =  "<div class=\"form-group has-danger\">\n" +
+                        "   <input type=\"email\" value=\"Échec de l'inscription : une erreur imprévue est survenue, merci de réessayer dans quelques instants.\" class=\"form-control form-control-danger\" />\n" +
+                        "</div>";
             e.printStackTrace();
         }
 

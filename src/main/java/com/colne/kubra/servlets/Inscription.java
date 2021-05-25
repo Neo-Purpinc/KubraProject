@@ -18,7 +18,7 @@ public class Inscription extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
-    public static final String VUE              = "/";
+    public static final String VUE              = "/index.jsp";
 
     private UtilisateurDao     utilisateurDao;
 

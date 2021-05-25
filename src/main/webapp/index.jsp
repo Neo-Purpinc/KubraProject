@@ -75,10 +75,10 @@
     </div>
     <c:import url="WEB-INF/jsp/footer.jsp" />
 </div>
-<c:import url="WEB-INF/jsp/registerForm.jsp" />
+
 <c:import url="WEB-INF/jsp/loginForm.jsp" />
 <c:import url="WEB-INF/jsp/cguModal.jsp" />
-
+<c:import url="WEB-INF/jsp/registerForm.jsp" />
 
 <!-- Plugins JS Files -->
 <script src="<c:url value="/assets/js/plugins/perfect-scrollbar.jquery.min.js" />"></script>

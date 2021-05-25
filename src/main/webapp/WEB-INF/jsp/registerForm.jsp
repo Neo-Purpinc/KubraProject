@@ -46,7 +46,7 @@
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <input class="form-check-input" type="checkbox" value="" required>
                   J'ai lu et j'accepte les
                   <span class="form-check-sign">
                   <span class="check"></span>
@@ -63,3 +63,10 @@
     </div>
   </div>
 </div>
+<script>
+  window.onload = function() {
+    if(${empty form.erreurs ? 'false' : 'true'}) {
+      $('#registerModal').show();
+    }
+  }
+</script>
