@@ -9,6 +9,22 @@
 <html>
 <head>
     <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Black Dashboard CSS -->
+    <link href="<c:url value="/assets/css/black-dashboard.css" />" rel="stylesheet">
+    <link href="<c:url value="/assets/css/nucleo-icons.css" />" rel="stylesheet">
+    <link href="<c:url value="/assets/css/style.css" />" rel="stylesheet">
+
+    <!-- Core JS Files -->
+    <script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
+    <script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
+    <script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
 </head>
 <body>
 <nav class="navbar sticky-top navbar-expand-lg bg-primary">
@@ -36,8 +52,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">Mes informations personnelles</a>
-                        <a class="dropdown-item" href="#">Déconnexion</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/deconnexion">Déconnexion</a>
                     </div>
                 </li>
             </ul>

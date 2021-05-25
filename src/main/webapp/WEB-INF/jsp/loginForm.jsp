@@ -34,7 +34,7 @@
                                 <input type="password" class="form-control" id="motdepasseLogin" name="motdepasseLogin" placeholder="Mot de passe" required>
                                 <span class="erreur">${form.erreurs['motdepasseLogin']}</span>
                             </div>
-
+                            ${form.resultat}
                         </div>
                         <input type="submit" value="Connexion" class="btn btn-neutral btn-round btn-lg btn-block">
                     </form>

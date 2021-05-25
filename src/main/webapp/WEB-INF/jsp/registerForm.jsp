@@ -54,7 +54,7 @@
                 </label>
                 <a href="#cguModal" data-toggle="modal" data-target="#cguModal" class="text-info">CGU</a>.
               </div>
-              <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+              ${form.resultat}
             </div>
             <input type="submit" value="Inscription" class="btn btn-neutral btn-round btn-lg btn-block">
           </form>

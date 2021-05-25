@@ -17,7 +17,6 @@ public class DAOFactory {
     private static final String     PROPERTY_DRIVER          = "driver";
     private static final String     PROPERTY_NOM_UTILISATEUR = "nomutilisateur";
     private static final String     PROPERTY_MOT_DE_PASSE    = "motdepasse";
-
     /* package */
     HikariDataSource                connectionPool           = null;
 
@@ -91,13 +90,14 @@ public class DAOFactory {
     }
 
     /* Méthode chargée de fournir une connexion à la base de données */
-    /* package */Connection getConnection() throws SQLException {
+    /* package */
+    Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
     }
 
     /*
-     * Méthodes de récupération de l'implémentation des différents DAO (un seul
-     * pour le moment)
+     * Méthodes de récupération de l'implémentation des différents DAO
+     * (un seul pour le moment)
      */
     public UtilisateurDao getUtilisateurDao() {
         return new UtilisateurDaoImpl( this );

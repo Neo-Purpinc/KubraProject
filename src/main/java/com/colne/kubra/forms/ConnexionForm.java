@@ -75,6 +75,20 @@ public final class ConnexionForm {
      * passe et initialisation de la propriété motDePasse du bean
      */
     private void traiterMotDePasse(String motDePasse, String email) {
+        try {
+            validationMotDePasse(motDePasse,email);
+        } catch (FormValidationException e){
+            setErreur(CHAMP_EMAIL, e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param motDePasse Le mot de passe entré par l'utilisateur
+     * @param email L'email saisi par l'utilisateur
+     * @throws FormValidationException
+     */
+    private void validationMotDePasse(String motDePasse,String email) throws FormValidationException {
         /*
          * Utilisation de la bibliothèque Jasypt pour chiffrer le mot de passe
          * efficacement.
@@ -87,22 +101,7 @@ public final class ConnexionForm {
         ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
         passwordEncryptor.setAlgorithm( ALGO_CHIFFREMENT );
         passwordEncryptor.setPlainDigest( false );
-        String motDePasseChiffre = passwordEncryptor.encryptPassword( motDePasse );
-        try {
-            validationMotDePasse(motDePasseChiffre,email);
-        } catch (FormValidationException e){
-            setErreur(CHAMP_EMAIL, e.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param motDePasseChiffre Le mot de passe entré par l'utilisateur
-     * @param email L'email saisi par l'utilisateur
-     * @throws FormValidationException
-     */
-    private void validationMotDePasse(String motDePasseChiffre,String email) throws FormValidationException {
-        if (utilisateurDao.trouver(email).getMotDePasse() != motDePasseChiffre){
+        if(!passwordEncryptor.checkPassword(motDePasse,utilisateurDao.trouver(email).getMotDePasse())) {
             throw new FormValidationException("La combinaison email/mot de passe est inconnue.");
         }
     }

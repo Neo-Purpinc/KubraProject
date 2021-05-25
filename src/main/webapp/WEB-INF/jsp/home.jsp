@@ -22,6 +22,7 @@
 <body>
     <div class="content">
         <c:import url="header.jsp" />
+        <c:import url="footer.jsp"/>
     </div>
 </body>
 </html>
