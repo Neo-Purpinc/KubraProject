@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 @WebServlet("/deconnexion" )
 public class Deconnexion extends HttpServlet {
-    public static final String VUE = "/index.jsp";
+    public static final String VUE = "/";
 
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         /* Récupération et destruction de la session en cours */

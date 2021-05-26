@@ -101,7 +101,13 @@ public final class ConnexionForm {
         ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
         passwordEncryptor.setAlgorithm( ALGO_CHIFFREMENT );
         passwordEncryptor.setPlainDigest( false );
-        if(!passwordEncryptor.checkPassword(motDePasse,utilisateurDao.trouver(email).getMotDePasse())) {
+        String mdpBDD = null;
+        try{
+            mdpBDD = utilisateurDao.trouver(email).getMotDePasse();
+        } catch (NullPointerException e){
+            System.out.println("ERROR");
+        }
+        if(!passwordEncryptor.checkPassword(motDePasse,mdpBDD)) {
             throw new FormValidationException("La combinaison email/mot de passe est inconnue.");
         }
     }

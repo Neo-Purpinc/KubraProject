@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import com.colne.kubra.dao.DAOFactory;
-
+@WebListener
 public class InitialisationDaoFactory implements ServletContextListener {
     private static final String ATT_DAO_FACTORY = "daofactory";
     private DAOFactory          daoFactory;

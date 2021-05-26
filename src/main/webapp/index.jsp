@@ -1,27 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!doctype html>
-<html lang="fr">
-<head>
-    <title>Hello, world!</title>
-    <link rel="shortcut icon" href="#">
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <!-- Fonts and icons -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- Black Dashboard CSS -->
-    <link href="<c:url value="/assets/css/black-dashboard.css" />" rel="stylesheet">
-    <link href="<c:url value="/assets/css/nucleo-icons.css" />" rel="stylesheet">
-    <link href="<c:url value="/assets/css/style.css" />" rel="stylesheet">
-
-    <!-- Core JS Files -->
-    <script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
-    <script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
-    <script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
-</head>
-<body>
 <video autoplay muted loop id="myVideo">
     <source src="<c:url value="/assets/videos/background.webm" />" type="video/webm">
 </video>
@@ -65,10 +41,11 @@
                 </div>
             </div>
             <div class="col-12 col-lg-3 margin-top-3rem" align="center">
-                    <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#registerModal">Inscription</button>
-                    <br>
-                    <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#loginModal">Connexion</button>
-
+                <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#registerModal">Inscription</button>
+                <c:import url="WEB-INF/jsp/registerForm.jsp" />
+                <br>
+                <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#loginModal">Connexion</button>
+                <c:import url="WEB-INF/jsp/loginForm.jsp" />
                 </div>
             </div>
         </div>
@@ -76,13 +53,11 @@
     <c:import url="WEB-INF/jsp/footer.jsp" />
 </div>
 
-<c:import url="WEB-INF/jsp/loginForm.jsp" />
-<c:import url="WEB-INF/jsp/cguModal.jsp" />
-<c:import url="WEB-INF/jsp/registerForm.jsp" />
-
+<!-- Core JS Files -->
+<script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
+<script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
+<script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
 <!-- Plugins JS Files -->
 <script src="<c:url value="/assets/js/plugins/perfect-scrollbar.jquery.min.js" />"></script>
 <script src="<c:url value="/assets/js/plugins/bootstrap-notify.js" />"></script>
 <script src="<c:url value="/assets/js/black-dashboard.js?v=1.1.0"/>"></script>
-</body>
-</html>
