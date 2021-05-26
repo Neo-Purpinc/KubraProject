@@ -26,6 +26,10 @@ footer{
     font-size: 20px;
     margin:0 auto;
 }
+.txt-3rem{
+    font-size: 3rem;
+    margin:0 auto;
+}
 .semi-colon{
     width: 50%;
 }
@@ -52,4 +56,21 @@ footer{
 .form-check-sign{
     background: rgb(30,30,47);
     color:white;
+}
+.padding-top-65{
+    padding-top: 65px;
+}
+.padding-top-1rem{
+    padding-top: 1rem;
+}
+.w90{
+    width: 90%;
+}
+.h4rem{
+    height: 4rem;
+}
+.fullwidth{
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }

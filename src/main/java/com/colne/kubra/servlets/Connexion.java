@@ -20,7 +20,7 @@ public class Connexion extends HttpServlet {
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
-    public static final String VUE              = "/WEB-INF/jsp/home.jsp";
+    public static final String VUE              = "/WEB-INF/jsp/restricted/home.jsp";
     public static final String REDIRECTION      = "/";
     private UtilisateurDao utilisateurDao;
 

@@ -65,15 +65,13 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <c:if test="${empty pageContext.request.userPrincipal}">
                         <div class="form-group">
                             <label for="inputEmail">Adresse mail</label>
                             <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter votre adresse mail">
                         </div>
-                    </c:if>
                     <div class="form-group">
                         <label for="inputMessage">Message</label>
-                        <textarea class="form-control" id="inputMessage" rows="3"></textarea>
+                        <textarea class="form-control" id="inputMessage" rows="3" placeholder="Ecrivez nous...&#10;Vous recevrez une réponse par mail."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
