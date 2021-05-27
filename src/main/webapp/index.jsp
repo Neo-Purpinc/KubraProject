@@ -154,6 +154,14 @@
         </div>
     </div>
 </div>
+<script>
+    <c:if test="${empty form.resultat}">
+        $.notify({
+            title: '<h6 class=\'txt-20px\'>Echec de la connexion</h6>',
+            message: 'Veuillez réessayer.'
+        });
+    </c:if>
+</script>
 <!-- Core JS Files -->
 <script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
 <script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>

@@ -67,7 +67,37 @@
         </div>
     </div>
 </div>
+
 <c:import url="../footer.jsp"/>
+
+<script>
+    $.notifyDefaults({
+        placement: {
+        from: "bottom"
+        },
+        animate:{
+        enter: "animated fadeInUp",
+        exit: "animated fadeOutDown"
+        },
+        type: 'info'
+    });
+    <c:if test="${ sessionScope.first_time == 1 }">
+        <c:set var="first_time" value="0" scope="session" />
+        $.notify({
+            title: '<h6 class=\'txt-20px\'>Bienvenue</h6>',
+            message: 'La connexion s\'est déroulée avec succès.'
+        });
+    </c:if>
+    <c:if test="${sessionScope.modification == '1'}">
+        <c:set var="modification" value="0" scope="session" />
+        $.notify({
+            title: '<h6 class=\'txt-20px\'>Modification effectuée avec succès</h6>',
+            message: 'Votre mot de passe a bien été modifiée.'
+        });
+    </c:if>
+</script>
+
+
 <!-- Core JS Files -->
 <script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
 <script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>

@@ -105,7 +105,7 @@ public final class ConnexionForm {
         try{
             mdpBDD = utilisateurDao.trouver(email).getMotDePasse();
         } catch (NullPointerException e){
-            System.out.println("ERROR");
+            //TODO
         }
         if(!passwordEncryptor.checkPassword(motDePasse,mdpBDD)) {
             throw new FormValidationException("La combinaison email/mot de passe est inconnue.");

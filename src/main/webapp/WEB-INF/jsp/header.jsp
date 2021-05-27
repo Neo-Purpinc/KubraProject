@@ -1,35 +1,35 @@
 <nav class="navbar sticky-top navbar-expand-lg bg-primary">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col float-left">
-                <img src="<c:url value="/assets/videos/logo.gif" />" alt="logo360" width="15%"/>
-            </div>
-            <div class="col float-right">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="tim-icons icon-single-02 text-default"></i>
-                                &#9660;
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" data-toggle="modal" data-target="#mesInfosModal">Mes informations personnelles</a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="navbar-header">
+            Kubra
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarNav">
+            <ul class="nav navbar-nav navbar-right ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#mesInfosModal">
+                        <i class="tim-icons icon-single-02"></i>
+                        Mes informations personnelles
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/deconnexion">
+                        <i class="tim-icons icon-simple-remove"></i>
+                        Déconnexion
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
 <!-- Mes informations personnelles Modal -->
 <div class="modal modal-black fade" id="mesInfosModal" tabindex="-1" role="dialog" aria-labelledby="mesInfosModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" align="center">
+        <div class="modal-content" >
             <div class="modal-header text-lg-center">
                 <h6 class="modal-title txt-20px" id="mesInfosModalLabel" >Mes informations personnelles</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -37,7 +37,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form" method="post" action="compte">
+                <form class="form" method="post" action="modification">
                     <div class="card-content">
                         <div class="input-group no-border form-control-lg">
                             <div class="input-group-prepend">
@@ -45,7 +45,7 @@
                                     <i class="tim-icons icon-single-02"></i>
                                 </div>
                             </div>
-                            <input type="email" id="disabledInput" name="emailInfos" class="form-control" placeholder="Adresse email" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" >
+                            <input type="text" class="form-control" id="emailInfos" name="emailInfos" value="<c:out value="${utilisateur.email}"/>" disabled>
                         </div>
                         <div class="input-group no-border form-control-lg">
                             <div class="input-group-prepend">
@@ -53,7 +53,7 @@
                                     <i class="tim-icons icon-key-25"></i>
                                 </div>
                             </div>
-                            <input type="password" id="motdepasseInfos" name="motdepasseInfos" placeholder="Ancien mot de passe" class="form-control" value="" size="32" maxlength="32" required>
+                            <input type="password" id="motDePasseInfos" name="motDePasseInfos" placeholder="Ancien mot de passe" class="form-control" size="32" maxlength="32" required>
                         </div>
                         <div class="input-group no-border form-control-lg">
                             <div class="input-group-prepend">
