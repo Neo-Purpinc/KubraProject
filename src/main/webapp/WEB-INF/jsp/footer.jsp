@@ -34,7 +34,7 @@
         <div class="modal-content" align="center">
             <div class="modal-header text-lg-center">
                 <h6 class="modal-title txt-20px" id="cguModalLabel" >Conditions G&eacute;n&eacute;rales d'Utilisation</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button type="button" class="close" data-dismiss="modal" onclick="showRegister();return false;"  aria-hidden="true">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
             </div>

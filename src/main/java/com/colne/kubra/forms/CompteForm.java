@@ -35,7 +35,7 @@ public final class CompteForm {
         try {
             utilisateur = modifierMotDePasse(utilisateur,ancienMotDePasse,nouveauMotDePasse);
         } catch (FormValidationException e) {
-            //TODO
+            setErreur(CHAMP_ANCIEN_PASS, "Une erreur s'est produite.");
         }
         return utilisateur;
     }

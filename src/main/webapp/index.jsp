@@ -98,7 +98,7 @@
                   <span class="check"></span>
               </span>
                                 </label>
-                                <a href="#cguModal" data-toggle="modal" data-target="#cguModal" class="text-info">CGU</a>.
+                                <a href="#" id="showCGU" onclick="showCGU();return false;" class="text-info">CGU</a>.
                             </div>
                             ${form.resultat}
                         </div>
@@ -155,7 +155,14 @@
     </div>
 </div>
 <script>
-    <c:if test="${empty form.resultat}">
+    function showCGU(){
+        $('#registerModal').modal('hide');
+        $('#cguModal').modal('show');
+    }
+    function showRegister(){
+        $(`#registerModal`).modal('show');
+    }
+    <c:if test="${ empty requestScope.sessionUtilisateur }">
         $.notify({
             title: '<h6 class=\'txt-20px\'>Echec de la connexion</h6>',
             message: 'Veuillez réessayer.'

@@ -95,6 +95,13 @@
             message: 'Votre mot de passe a bien été modifiée.'
         });
     </c:if>
+    <c:if test="${sessionScope.modification == '2'}">
+        <c:set var="modification" value="0" scope="session" />
+        $.notify({
+            title: '<h6 class=\'txt-20px\'>Echec de la modification</h6>',
+            message: 'Veuillez réessayez.'
+        });
+    </c:if>
 </script>
 
 

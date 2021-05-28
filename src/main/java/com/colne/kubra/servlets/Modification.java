@@ -51,6 +51,10 @@ public class Modification extends HttpServlet {
             session.setAttribute( ATT_MODIFICATION, 1);
             session.setAttribute( ATT_SESSION_USER, utilisateur );
             this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        } else {
+            session.setAttribute( ATT_MODIFICATION, 2);
+            session.setAttribute( ATT_SESSION_USER, utilisateur );
+            this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         }
     }
 }
