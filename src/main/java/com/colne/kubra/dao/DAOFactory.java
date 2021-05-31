@@ -91,15 +91,12 @@ public class DAOFactory {
 
     /* Méthode chargée de fournir une connexion à la base de données */
     /* package */
-    Connection getConnection() throws SQLException {
-        return connectionPool.getConnection();
-    }
+    Connection getConnection() throws SQLException { return connectionPool.getConnection(); }
 
     /*
      * Méthodes de récupération de l'implémentation des différents DAO
-     * (un seul pour le moment)
      */
-    public UtilisateurDao getUtilisateurDao() {
-        return new UtilisateurDaoImpl( this );
-    }
+    public UtilisateurDao getUtilisateurDao() { return new UtilisateurDaoImpl( this ); }
+
+    public PortefeuilleDao getPortefeuilleDao() { return new PortefeuilleDaoImpl(this); }
 }

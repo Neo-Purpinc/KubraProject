@@ -1,38 +1,46 @@
 package com.colne.kubra.beans;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Portefeuille {
+    /****************************************************************/
+    /************************** ATTRIBUTES **************************/
+    /****************************************************************/
     private Long id_portefeuille;
-    private Long id_action;
-    private Integer quantite;
-    private Timestamp date_achat;
-    private Double prix_achat;
-    private Timestamp date_revente;
-    private Double prix_revente;
-    private Double evolution;
-
+    private ArrayList<Long> id_action;
+    private ArrayList<Integer>  quantite;
+    private ArrayList<Timestamp> date;
+    private ArrayList<Double> prix_unitaire;
+    private ArrayList<Double> prix_total;
+    private ArrayList<String> type;
+    /****************************************************************/
+    /*********************** GETTERS & SETTERS **********************/
+    /****************************************************************/
     public Long getId_portefeuille() { return id_portefeuille; }
     public void setId_portefeuille(Long id_portefeuille) { this.id_portefeuille = id_portefeuille; }
 
-    public Long getId_action() { return id_action; }
-    public void setId_action(Long id_action) { this.id_action = id_action; }
+    public ArrayList<Long> getId_action() { return id_action; }
+    public void setId_action(ArrayList<Long> id_action) { this.id_action = id_action; }
+    public void addAction(Long id_action) { this.id_action.add(id_action);}
 
-    public Integer getQuantite() { return quantite; }
-    public void setQuantite(Integer quantite) { this.quantite = quantite; }
+    public ArrayList<Integer> getQuantite() { return quantite; }
+    public void setQuantite(ArrayList<Integer> quantite) { this.quantite = quantite; }
+    public void addQuantite(Integer quantite) { this.quantite.add(quantite); }
 
-    public Timestamp getDate_achat() { return date_achat; }
-    public void setDate_achat(Timestamp date_achat) { this.date_achat = date_achat; }
+    public ArrayList<Timestamp> getDate() { return date; }
+    public void setDate(ArrayList<Timestamp> date) { this.date = date; }
+    public void addDate(Timestamp date) { this.date.add(date); }
 
-    public Double getPrix_achat() { return prix_achat; }
-    public void setPrix_achat(Double prix_achat) { this.prix_achat = prix_achat; }
+    public ArrayList<Double> getPrix_unitaire() { return prix_unitaire; }
+    public void setPrix_unitaire(ArrayList<Double> prix_unitaire) { this.prix_unitaire = prix_unitaire; }
+    public void addPrix_unitaire(Double prix_unitaire) { this.prix_unitaire.add(prix_unitaire); }
 
-    public Timestamp getDate_revente() { return date_revente; }
-    public void setDate_revente(Timestamp date_revente) { this.date_revente = date_revente; }
+    public ArrayList<Double> getPrix_total() { return prix_total; }
+    public void setPrix_total(ArrayList<Double> prix_total) { this.prix_total = prix_total; }
+    public void addPrix_total(Double prix_total) { this.prix_total.add(prix_total); }
 
-    public Double getPrix_revente() { return prix_revente; }
-    public void setPrix_revente(Double prix_revente) { this.prix_revente = prix_revente; }
-
-    public Double getEvolution() { return evolution; }
-    public void setEvolution(Double evolution) { this.evolution = evolution; }
+    public ArrayList<String> getType() { return type; }
+    public void setType(ArrayList<String> type) { this.type = type; }
+    public void addType(String type) { this.type.add(type); }
 }

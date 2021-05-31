@@ -100,8 +100,23 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
 	@Override
 	public void supprimer(Utilisateur utilisateur) throws DAOException {
-		// TODO Auto-generated method stub
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
 
+		try {
+			/* Récupération d'une connexion depuis la Factory */
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_EMAIL, false, utilisateur.getEmail());
+			int statut = preparedStatement.executeUpdate();
+			/* Analyse du statut retourné par la requête d'insertion */
+			if ( statut == 0 ) {
+				throw new DAOException( "Échec de la suppression de l'utilisateur, aucune ligne supprimée dans la table." );
+			}
+		} catch ( SQLException e ) {
+			throw new DAOException( e );
+		} finally {
+			fermeturesSilencieuses( preparedStatement, connexion );
+		}
 	}
 	
 	/*
