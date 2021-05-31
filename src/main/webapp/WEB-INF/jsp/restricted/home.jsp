@@ -1,12 +1,12 @@
 <c:import url="../header.jsp" />
 <div class="content">
-    <div class="container-fluid padding-top-65">
-        <div class="row">
+    <div class="container-fluid padding-top-65 h-100">
+        <div class="row h-100">
             <div class="col-lg-6" align="center">
                 <div class="row">
                     <h6 class="modal-title txt-3rem">Classement</h6>
                 </div>
-                <div class="row padding-top-1rem w90 h4rem" align="center">
+                <div class="row padding-top-1rem h4rem" align="center">
                     <div class="col-12">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-sm btn-primary btn-simple" id="0">
@@ -33,11 +33,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="row padding-top-1rem w90">
-                    <div class="card">
+                <div class="row padding-top-1rem h-75 w90">
+                    <div class="col-12 card">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive ps">
                                 <table class="table tablesorter " id="tableClassement">
+                                    <thead>
+
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -45,24 +51,37 @@
                 </div>
             </div>
             <div class="col-lg-6" align="center">
-                <div class="row w90">
+                <div class="row">
                     <h6 class="modal-title txt-3rem">Mon portefeuille</h6>
                 </div>
-                <div class="row padding-top-1rem w90 h4rem">
+                <div class="row padding-top-1rem h4rem w90">
                     <div class="col-12">
-                        <button class="btn btn-neutral btn-round btn-lg float-lg-right">Accéder au détail</button>
+                        <button class="btn btn-neutral btn-round float-lg-right">Accéder au détail</button>
                     </div>
                 </div>
-                <div class="row padding-top-1rem w90" >
+                <div class="row padding-top-1rem h-75 w90">
                     <div class="col-12 card">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive ps">
                                 <table class="table tablesorter " id="tablePortefeuille">
+                                    <thead>
+
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <%--
+                <c:if test="${empty portefeuille}">
+                    <div class="row w90">
+                        <img src="<c:url value="/assets/videos/logo.gif" />" alt="logo360" width="15%" />
+                    </div>
+                </c:if>
+                --%>
             </div>
         </div>
     </div>
@@ -73,11 +92,12 @@
 <script>
     $.notifyDefaults({
         placement: {
-        from: "bottom"
+            from: "bottom",
+            align: 'left'
         },
         animate:{
-        enter: "animated fadeInUp",
-        exit: "animated fadeOutDown"
+            enter: "animated fadeInUp",
+            exit: "animated fadeOutDown"
         },
         type: 'info'
     });

@@ -5,8 +5,7 @@
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
+
         </button>
         <div class="navbar-collapse collapse" id="navbarNav">
             <ul class="nav navbar-nav navbar-right ml-auto">
