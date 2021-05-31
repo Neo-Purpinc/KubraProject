@@ -12,23 +12,22 @@
                             <label class="btn btn-sm btn-primary btn-simple" id="0">
                                 <input type="radio" name="options" checked="">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
-                                <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-single-02"></i>
-                        </span>
+                                <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
                             </label>
                             <label class="btn btn-sm btn-primary btn-simple active" id="1">
                                 <input type="radio" class="d-none d-sm-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Hebdomadaire</span>
-                                <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-gift-2"></i>
-                        </span>
+                                <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
                             </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="2">
+                            <label class="btn btn-sm btn-primary btn-simple active" id="2">
+                                <input type="radio" class="d-none d-sm-none" name="options">
+                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Mensuel</span>
+                                <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
+                            </label>
+                            <label class="btn btn-sm btn-primary btn-simple" id="3">
                                 <input type="radio" class="d-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Annuel</span>
-                                <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-tap-02"></i>
-                        </span>
+                                <span class="d-block d-sm-none"><i class="tim-icons icon-tap-02"></i></span>
                             </label>
                         </div>
                     </div>
