@@ -13,14 +13,10 @@ public final class CompteForm {
     private static final String CHAMP_ANCIEN_PASS   = "motDePasseInfos";
     private static final String CHAMP_NOUVEAU_PASS  = "nouveauMdpInfos";
     private static final String ATT_SESSION_USER    = "sessionUtilisateur";
-    private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
     private UtilisateurDao utilisateurDao;
 
     public CompteForm(UtilisateurDao utilisateurDao) { this.utilisateurDao = utilisateurDao; }
-    public String getResultat() {
-        return resultat;
-    }
 
     public Map<String, String> getErreurs() {
         return erreurs;
@@ -64,8 +60,8 @@ public final class CompteForm {
             throw new FormValidationException("La combinaison email/mot de passe est inconnue.");
         } else{
             String nouveauMotDePasseHashe = passwordEncryptor.encryptPassword( nouveauMotDePasse );
-            utilisateurDao.modifier(nouveauMotDePasseHashe,email);
             utilisateur.setMotDePasse(nouveauMotDePasseHashe);
+            utilisateurDao.modifier(utilisateur);
         }
         return utilisateur;
     }

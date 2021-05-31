@@ -1,7 +1,7 @@
 package com.colne.kubra.dao;
 
-import com.colne.kubra.beans.Action;
 import com.colne.kubra.beans.Portefeuille;
+import com.colne.kubra.beans.Transaction;
 import com.colne.kubra.beans.Utilisateur;
 
 import java.sql.*;
@@ -29,7 +29,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        Portefeuille portefeuille = null;
+        Portefeuille portefeuille = new Portefeuille();
 
         try {
             /* Récupération d'une connexion depuis la Factory */
@@ -38,7 +38,8 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
             resultSet = preparedStatement.executeQuery();
             /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
             while ( resultSet.next() ) {
-                portefeuille = add( resultSet );
+                Transaction transaction = map( resultSet );
+                portefeuille.addTransaction( transaction );
             }
             portefeuille.setId_portefeuille( resultSet.getLong( "id_portefeuille" ) );
         } catch ( SQLException e ) {
@@ -50,14 +51,26 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         return portefeuille;
     }
 
-    @Override
-    public void acheterAction(Utilisateur utilisateur, Action action, Integer quantite, Double prix, Timestamp date_achat ) throws DAOException {
-        transaction(utilisateur.getId(), action.getId_action(), quantite, prix, date_achat, "ACHAT" );
-    }
+    public Portefeuille addTransaction(Portefeuille portefeuille, Transaction transaction){
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
 
-    @Override
-    public void vendreAction(Utilisateur utilisateur, Action action, Integer quantite, Double prix, Timestamp date_vente) throws DAOException {
-        transaction(utilisateur.getId(), action.getId_action(), quantite,  prix, date_vente, "VENTE" );
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, portefeuille.getId_portefeuille(), transaction.getId_action(), transaction.getQuantite(), transaction.getPrix_unitaire(), transaction.getDate(), transaction.getType());
+            int statut = preparedStatement.executeUpdate();
+            /* Analyse du statut retourné par la requête d'insertion */
+            if ( statut == 0 ) {
+                throw new DAOException( "Échec de la création de la transaction, aucune ligne ajoutée dans la table." );
+            }
+            portefeuille.addTransaction( transaction );
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( preparedStatement, connexion );
+        }
+        return portefeuille;
     }
 
     @Override
@@ -81,39 +94,20 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         }
     }
 
-    private void transaction(Long id_portefeuille, Long id_action, Integer quantite, Double prix, Timestamp date, String type){
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            /* Récupération d'une connexion depuis la Factory */
-            connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, id_portefeuille, id_action, quantite, prix, date, type);
-            int statut = preparedStatement.executeUpdate();
-            /* Analyse du statut retourné par la requête d'insertion */
-            if ( statut == 0 ) {
-                throw new DAOException( "Échec de la création de la transaction, aucune ligne ajoutée dans la table." );
-            }
-        } catch ( SQLException e ) {
-            throw new DAOException( e );
-        } finally {
-            fermeturesSilencieuses( preparedStatement, connexion );
-        }
-    }
-
     /*
-     * Méthode utilitaire permettant de faire l'ajout
-     * d'une ligne issue de la table Portefeuille
-     * (un ResultSet) dans un bean Portefeuille.
+     * Simple méthode utilitaire permettant de faire la correspondance (le
+     * mapping) entre une ligne issue de la table Portefeuille (un
+     * ResultSet) et un bean Transaction.
      */
-    private static Portefeuille add( ResultSet resultSet ) throws SQLException {
-        Portefeuille portefeuille = new Portefeuille();
-        portefeuille.addAction( resultSet.getLong("id_action") );
-        portefeuille.addQuantite( resultSet.getInt("quantite") );
-        portefeuille.addDate( resultSet.getTimestamp( "date"));
-        portefeuille.addPrix_unitaire( resultSet.getDouble("prix_unitaire"));
-        portefeuille.addPrix_total( resultSet.getDouble("prix_total"));
-        portefeuille.addType( resultSet.getString("type") );
-        return portefeuille;
+    private static Transaction map(ResultSet resultSet ) throws  SQLException {
+        Transaction transaction = new Transaction();
+        transaction.setId_portefeuille( resultSet.getLong( "id_portefeuille") );
+        transaction.setId_action( resultSet.getLong("id_action") );
+        transaction.setQuantite( resultSet.getInt("quantite") );
+        transaction.setDate( resultSet.getTimestamp("date") );
+        transaction.setPrix_unitaire( resultSet.getDouble("prix_unitaire") );
+        transaction.setPrix_total( resultSet.getDouble("prix_total") );
+        transaction.setType( resultSet.getString("type") );
+        return transaction;
     }
 }

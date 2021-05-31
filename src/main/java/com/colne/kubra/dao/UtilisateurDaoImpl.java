@@ -53,14 +53,14 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public void modifier(String motdepasse,String email) throws DAOException {
+	public void modifier(Utilisateur utilisateur) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE_PASS, false, motdepasse, email);
+			preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE_PASS, false, utilisateur.getMotDePasse(), utilisateur.getEmail());
 			int statut = preparedStatement.executeUpdate();
 			/* Analyse du statut retourné par la requête d'insertion */
 			if ( statut == 0 ) {
