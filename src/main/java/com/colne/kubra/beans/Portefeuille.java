@@ -8,7 +8,7 @@ public class Portefeuille {
     /************************** ATTRIBUTES **************************/
     /****************************************************************/
     private Long                    id_portefeuille;
-    private ArrayList<Transaction>  transactions;
+    private ArrayList<Transaction>  transactions = new ArrayList<>();
 
     /****************************************************************/
     /*********************** GETTERS & SETTERS **********************/

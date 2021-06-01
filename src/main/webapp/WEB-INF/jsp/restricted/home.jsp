@@ -14,12 +14,12 @@
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
                                 <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
                             </label>
-                            <label class="btn btn-sm btn-primary btn-simple active" id="1">
+                            <label class="btn btn-sm btn-primary btn-simple" id="1">
                                 <input type="radio" class="d-none d-sm-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Hebdomadaire</span>
                                 <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
                             </label>
-                            <label class="btn btn-sm btn-primary btn-simple active" id="2">
+                            <label class="btn btn-sm btn-primary btn-simple" id="2">
                                 <input type="radio" class="d-none d-sm-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Mensuel</span>
                                 <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
@@ -67,7 +67,17 @@
 
                                     </thead>
                                     <tbody>
-
+                                    <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" varStatus="status">
+                                        <tr>
+                                            <td class="text-center"><c:out value="${ status.count }" /></td>
+                                            <td><c:out value="${ transac.id_action}"/></td>
+                                            <td><c:out value="${ transac.quantite}"/></td>
+                                            <td><c:out value="${ transac.prix_unitaire}"/></td>
+                                            <td><c:out value="${ transac.prix_total}"/></td>
+                                            <td><c:out value="${ transac.type}"/></td>
+                                            <td><button class="btn btn-round btn-red">Vendre</button></td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

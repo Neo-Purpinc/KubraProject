@@ -63,8 +63,9 @@
                             <input type="password" id="nouveauMdpInfos" name="nouveauMdpInfos" placeholder="Nouveau mot de passe" class="form-control" value="" size="32" maxlength="32" required>
                         </div>
                     </div>
-                    <input type="submit" value="Enregistrer" class="btn btn-neutral btn-round btn-lg btn-block">
-                    <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-neutral btn-round btn-lg btn-block" value="Retour">
+                    <small class="form-text text-muted">Je souhaite <a>supprimer</a> mon compte et le portefeuille associé.</small>
+                    <input type="submit" value="Enregistrer" class="btn btn-neutral btn-round btn-lg">
+                    <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-neutral btn-round btn-lg" value="Retour">
                 </form>
             </div>
         </div>

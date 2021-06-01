@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.colne.kubra.beans.Portefeuille;
 import com.colne.kubra.beans.Utilisateur;
 import com.colne.kubra.dao.DAOFactory;
+import com.colne.kubra.dao.PortefeuilleDao;
 import com.colne.kubra.dao.UtilisateurDao;
 import com.colne.kubra.forms.ConnexionForm;
 
@@ -19,14 +21,18 @@ public class Connexion extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
+    public static final String ATT_PORTEFEUILLE = "portefeuille";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    public static final String ATT_SESSION_PORTEFEUILLE = "sessionPortefeuille";
     public static final String VUE              = "/WEB-INF/jsp/restricted/home.jsp";
     public static final String REDIRECTION      = "/";
     private UtilisateurDao utilisateurDao;
+    private PortefeuilleDao portefeuilleDao;
 
     public void init() throws ServletException {
         /* Récupération d'une instance de notre DAO Utilisateur */
         this.utilisateurDao = ( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getUtilisateurDao();
+        this.portefeuilleDao = ( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getPortefeuilleDao();
     }
 
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -38,13 +44,14 @@ public class Connexion extends HttpServlet {
         /* Préparation de l'objet formulaire */
         ConnexionForm form = new ConnexionForm( utilisateurDao);
 
-        /* Traitement de la requête et récupération du bean en résultant */
+        /* Traitement de la requête et récupération des beans en résultant */
         Utilisateur utilisateur = form.connecterUtilisateur( request );
+        Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
 
-        /* Stockage du formulaire et du bean dans l'objet request */
+        /* Stockage du formulaire et des beans dans l'objet request */
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );
-
+        request.setAttribute( ATT_PORTEFEUILLE, portefeuille );
         /**
          * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
          * Utilisateur à la session, sinon suppression du bean de la session.
@@ -53,10 +60,12 @@ public class Connexion extends HttpServlet {
             /* Récupération de la session depuis la requête */
             HttpSession session = request.getSession();
             session.setAttribute( ATT_SESSION_USER, utilisateur );
+            session.setAttribute( ATT_SESSION_PORTEFEUILLE, portefeuille);
             session.setAttribute( "first_time",1);
             this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         } else {
             request.setAttribute( ATT_SESSION_USER, null );
+            request.setAttribute( ATT_SESSION_PORTEFEUILLE, null);
             response.sendRedirect( request.getContextPath() + REDIRECTION );
         }
     }

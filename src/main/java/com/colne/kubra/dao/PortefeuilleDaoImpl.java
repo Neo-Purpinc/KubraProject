@@ -36,12 +36,12 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ID, false, utilisateur.getId() );
             resultSet = preparedStatement.executeQuery();
+            portefeuille.setId_portefeuille(utilisateur.getId());
             /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
             while ( resultSet.next() ) {
                 Transaction transaction = map( resultSet );
                 portefeuille.addTransaction( transaction );
             }
-            portefeuille.setId_portefeuille( resultSet.getLong( "id_portefeuille" ) );
         } catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {
