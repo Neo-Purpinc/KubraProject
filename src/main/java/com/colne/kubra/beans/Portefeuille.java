@@ -19,4 +19,6 @@ public class Portefeuille {
     public ArrayList<Transaction> getTransactions() { return transactions; }
     public void setTransactions(ArrayList<Transaction> transactions) { this.transactions = transactions; }
     public void addTransaction(Transaction transaction) { this.transactions.add( transaction ); }
+
+    public boolean isEmpty(){ return transactions.isEmpty(); }
 }

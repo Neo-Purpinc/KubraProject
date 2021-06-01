@@ -17,8 +17,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
                                                                 " FROM Portefeuille" +
                                                                 " WHERE id_portefeuille = ?" +
                                                                 " ORDER BY date DESC";
-    private static final String SQL_DELETE_PAR_ID 	        = 	" DELETE *" +
-                                                                " FROM Portefeuille WHERE id_portefeuille = ?";
+    private static final String SQL_DELETE_PAR_ID 	        = 	" DELETE FROM Portefeuille WHERE id_portefeuille = ?";
 
     PortefeuilleDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;

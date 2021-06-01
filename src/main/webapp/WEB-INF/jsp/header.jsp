@@ -69,13 +69,16 @@
                             Je souhaite <a href="#" data-dismiss="modal" onclick="showSuppression(); return false;" class="card-link">supprimer</a> mon compte et le portefeuille associé.
                         </small>
                     </div>
-                    <input type="submit" value="Enregistrer" class="btn btn-primary btn-lg">
-                    <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-primary btn-lg" value="Retour">
+
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Enregistrer" class="btn btn-primary btn-round btn-lg btn-block">
+                <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-neutral btn-lg btn-block" value="Retour">
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="confirmationSuppressionModal" tabindex="-1" role="dialog" aria-labelledby="confirmationSuppressionModalLabel" aria-hidden="true">
+<div class="modal fade modal-black" id="confirmationSuppressionModal" tabindex="-1" role="dialog" aria-labelledby="confirmationSuppressionModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -91,8 +94,8 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="showInformations(); return false;">Retour</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/suppression'">Confirmer</button>
+                <button type="button" class="btn btn-neutral btn-round btn-lg btn-block" data-dismiss="modal" onclick="showInformations(); return false;">Retour</button>
+                <button type="button" class="btn btn-primary btn-round btn-lg btn-block" onclick="location.href='${pageContext.request.contextPath}/suppression'">Confirmer</button>
             </div>
         </div>
     </div>

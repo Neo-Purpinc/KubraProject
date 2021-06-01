@@ -13,7 +13,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 															" VALUES (?, ?, NOW())";
 	private static final String SQL_SELECT_PAR_EMAIL 	= 	" SELECT id, email, mot_de_passe, date_inscription " +
 															" FROM Utilisateur WHERE email = ?";
-	private static final String SQL_DELETE_PAR_EMAIL 	= 	" DELETE * FROM Utilisateur WHERE email = ?";
+	private static final String SQL_DELETE_PAR_ID 	= 		" DELETE FROM Utilisateur WHERE id = ?";
 	private static final String SQL_UPDATE_PASS 		= 	" UPDATE Utilisateur" +
 															" SET mot_de_passe = ?" +
 															" WHERE email = ?";
@@ -106,7 +106,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		try {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_EMAIL, false, utilisateur.getEmail());
+			preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, false, utilisateur.getId());
 			int statut = preparedStatement.executeUpdate();
 			/* Analyse du statut retourné par la requête d'insertion */
 			if ( statut == 0 ) {
