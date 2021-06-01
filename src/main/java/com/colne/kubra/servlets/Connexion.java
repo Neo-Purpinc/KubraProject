@@ -21,7 +21,6 @@ public class Connexion extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
-    public static final String ATT_PORTEFEUILLE = "portefeuille";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String ATT_SESSION_PORTEFEUILLE = "sessionPortefeuille";
     public static final String VUE              = "/WEB-INF/jsp/restricted/home.jsp";
@@ -46,26 +45,28 @@ public class Connexion extends HttpServlet {
 
         /* Traitement de la requête et récupération des beans en résultant */
         Utilisateur utilisateur = form.connecterUtilisateur( request );
-        Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
+
 
         /* Stockage du formulaire et des beans dans l'objet request */
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );
-        request.setAttribute( ATT_PORTEFEUILLE, portefeuille );
         /**
          * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
          * Utilisateur à la session, sinon suppression du bean de la session.
          */
         if ( form.getErreurs().isEmpty() ) {
+            /* Récupération du portefeuille */
+            Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
             /* Récupération de la session depuis la requête */
             HttpSession session = request.getSession();
+            /* Ajout des variables sessions contenant le
+               bean utilisateur et le bean portefeuille */
             session.setAttribute( ATT_SESSION_USER, utilisateur );
             session.setAttribute( ATT_SESSION_PORTEFEUILLE, portefeuille);
             session.setAttribute( "first_time",1);
             this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         } else {
             request.setAttribute( ATT_SESSION_USER, null );
-            request.setAttribute( ATT_SESSION_PORTEFEUILLE, null);
             response.sendRedirect( request.getContextPath() + REDIRECTION );
         }
     }

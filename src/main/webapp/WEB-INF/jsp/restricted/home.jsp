@@ -9,7 +9,7 @@
                 <div class="row padding-top-1rem h4rem" align="center">
                     <div class="col-12">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-sm btn-primary btn-simple" id="0">
+                            <label class="btn btn-sm btn-primary btn-simple active" id="0">
                                 <input type="radio" name="options" checked="">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
                                 <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
