@@ -38,11 +38,15 @@ public class Inscription extends HttpServlet {
 
         /* Traitement de la requête et récupération du bean en résultant */
         Utilisateur utilisateur = form.inscrireUtilisateur( request );
-
-        /* Stockage du formulaire et du bean dans l'objet request */
-        request.setAttribute( ATT_FORM, form );
-        request.setAttribute( ATT_USER, utilisateur );
-
+        if(form.getErreurs().isEmpty()){
+            /* Stockage du formulaire et du bean dans l'objet request */
+            request.setAttribute( ATT_FORM, form );
+            request.setAttribute( ATT_USER, utilisateur );
+        }
+        else{
+            request.setAttribute( ATT_FORM, form );
+            request.setAttribute( "error",3);
+        }
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
 }

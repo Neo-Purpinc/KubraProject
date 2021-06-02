@@ -48,7 +48,6 @@
             </div>
         </div>
     </div>
-    <c:import url="WEB-INF/jsp/footer.jsp" />
 </div>
 <!-- Register Modal -->
 <div class="modal fade modal-primary" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -154,6 +153,7 @@
         </div>
     </div>
 </div>
+<c:import url="WEB-INF/jsp/footer.jsp" />
 <script>
     function showCGU(){
         $('#registerModal').modal('hide');
@@ -162,18 +162,38 @@
     function showRegister(){
         $(`#registerModal`).modal('show');
     }
-    <c:if test="${ empty requestScope.sessionUtilisateur }">
-        $.notify({
-            title: '<h6 class=\'txt-20px\'>Echec de la connexion</h6>',
-            message: 'Veuillez réessayer.'
-        });
-    </c:if>
 </script>
-<!-- Core JS Files -->
-<script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
-<!-- Plugins JS Files -->
-<script src="<c:url value="/assets/js/plugins/perfect-scrollbar.jquery.min.js" />"></script>
-<script src="<c:url value="/assets/js/plugins/bootstrap-notify.js" />"></script>
-<script src="<c:url value="/assets/js/black-dashboard.js?v=1.1.0"/>"></script>
+<script>
+    $(function () {
+        $.notifyDefaults({
+            placement: {
+                from: "bottom",
+                align: 'center'
+            },
+            animate:{
+                enter: "animated fadeInUp",
+                exit: "animated fadeOutDown"
+            },
+            type: 'info'
+        });
+        <c:if test="${ sessionScope.error == '1' }">
+            <c:set var="error" value="0" scope="session" />
+            $.notify({
+                title: '<h6 class=\'txt-20px\'>Echec de la connexion</h6>',
+                message: 'Veuillez réessayer.'
+            });
+        </c:if>
+        <c:if test="${!empty requestScope.utilisateur }">
+            $.notify({
+                title: '<h6 class=\'txt-20px\'>Inscription effectuée avec succès</h6>',
+                message: 'Vous pouvez dès à présent vous connecter.'
+            });
+        </c:if>
+        <c:if test="${ requestScope.error == '2' }">
+            $.notify({
+                title: '<h6 class=\'txt-20px\'>Echec de l\'inscription</h6>',
+                message: 'Veuillez réessayer.'
+            });
+        </c:if>
+    });
+</script>

@@ -8,10 +8,14 @@
     </listener>
     <jsp-config>
         <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <page-encoding>UTF-8</page-encoding>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/WEB-INF/jsp/restricted/home.jsp</url-pattern>
             <include-prelude>/WEB-INF/jsp/include/prelude.jsp</include-prelude>
             <include-coda>/WEB-INF/jsp/include/coda.jsp</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
 </web-app>
