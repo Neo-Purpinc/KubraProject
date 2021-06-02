@@ -45,7 +45,7 @@ public class Inscription extends HttpServlet {
         }
         else{
             request.setAttribute( ATT_FORM, form );
-            request.setAttribute( "error",3);
+            request.setAttribute( "error",2);
         }
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
