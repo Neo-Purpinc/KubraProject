@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <footer>
     <div class="row text-center">
         <div class="col-4">

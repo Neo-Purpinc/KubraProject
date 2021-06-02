@@ -55,14 +55,14 @@
                 </div>
                 <div class="row padding-top-1rem h4rem w90">
                     <div class="col-12">
-                        <button class="btn btn-neutral btn-round float-lg-right" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
+                        <button class="btn btn-neutral btn-round float-lg-right animation-on-hover" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
                     </div>
                 </div>
                 <div class="row padding-top-1rem h-75 w90">
                     <div class="col-12 card">
                         <div class="card-body">
                             <div class="table-responsive ps">
-                                <table class="table tablesorter " id="tablePortefeuille2">
+                                <table class="table tablesorter " id="tablePorteactions">
                                     <thead class="text-center">
                                     <th>Nom</th>
                                     <th>Symbole</th>
@@ -74,6 +74,7 @@
                                             <td><c:out value="${ item.key.nom }"/></td>
                                             <td><c:out value="${ item.key.symbole }"/></td>
                                             <td><c:out value="${ item.value }"/></td>
+                                            <td><button type="button" onclick="showVenteModal(<c:out value="'${ item.key.nom }'"/>,<c:out value="'${ item.key.symbole }'"/>,<c:out value="'${ item.value }'"/>);return false;" class="btn btn-danger animation-on-hover">Vendre</button></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -93,11 +94,12 @@
         </div>
     </div>
 </div>
+<!-- Mon portefeuille détaillé Modal-->
 <div class="modal fade modal-black" id="monPortefeuilleModal" tabindex="-1" role="dialog" aria-labelledby="monPortefeuilleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h6 class="modal-title txt-20px" id="confirmationSuppressionModalLabel">Mon portefeuille détaillé</h6>
+                <h6 class="modal-title txt-20px" id="monPortefeuilleModalLabel">Mon portefeuille détaillé</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
@@ -107,12 +109,12 @@
                 <div class="table-responsive ps" >
                     <table class="table tablesorter" style="max-height: 300px;" id="tablePortefeuille">
                         <thead class="text-center">
-                        <th>Nom</th>
-                        <th>Symbole</th>
-                        <th>Type de transaction</th>
-                        <th>Quantité</th>
-                        <th>Prix Unitaire</th>
-                        <th>Prix Total</th>
+                            <th>Nom</th>
+                            <th>Symbole</th>
+                            <th>Type de transaction</th>
+                            <th>Quantité</th>
+                            <th>Prix Unitaire</th>
+                            <th>Prix Total</th>
                         </thead>
                         <tbody>
                         <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" >
@@ -132,49 +134,65 @@
         </div>
     </div>
 </div>
+<!-- Vente d'actions Modal -->
+<div class="modal fade modal-black" id="venteActionModal" tabindex="-1" role="dialog" aria-labelledby="venteActionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h6 class="modal-title txt-20px" id="venteActionModalLabel"></h6>
+                <h6 class="modal-title" id="venteActionModalSousLabel"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="tim-icons icon-simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 <c:import url="../footer.jsp"/>
-
 <script>
-    $.notifyDefaults({
-        placement: {
-            from: "bottom",
-            align: 'left'
-        },
-        animate:{
-            enter: "animated fadeInUp",
-            exit: "animated fadeOutDown"
-        },
-        type: 'info'
-    });
-    <c:if test="${ sessionScope.first_time == 1 }">
+    function showVenteModal(nom,symbole,quantite){
+        $("#venteActionModalLabel").innerHTML = nom.toString();
+        $("#venteActionModalSousLabel").innerHTML = symbole.toString();
+        $("#venteActionModal").modal('show');
+        console.log(symbole);
+    }
+</script>
+<script>
+    $(function () {
+        $.notifyDefaults({
+            placement: {
+                from: "bottom",
+                align: 'center'
+            },
+            animate:{
+                enter: "animated fadeInUp",
+                exit: "animated fadeOutDown"
+            },
+            type: 'info'
+        });
+        <c:if test="${ sessionScope.first_time == 1 }">
         <c:set var="first_time" value="0" scope="session" />
         $.notify({
             title: '<h6 class=\'txt-20px\'>Bienvenue</h6>',
             message: 'La connexion s\'est déroulée avec succès.'
         });
-    </c:if>
-    <c:if test="${sessionScope.modification == '1'}">
+        </c:if>
+        <c:if test="${sessionScope.modification == '1'}">
         <c:set var="modification" value="0" scope="session" />
         $.notify({
             title: '<h6 class=\'txt-20px\'>Modification effectuée avec succès</h6>',
             message: 'Votre mot de passe a bien été modifiée.'
         });
-    </c:if>
-    <c:if test="${sessionScope.modification == '2'}">
+        </c:if>
+        <c:if test="${sessionScope.modification == '2'}">
         <c:set var="modification" value="0" scope="session" />
         $.notify({
             title: '<h6 class=\'txt-20px\'>Echec de la modification</h6>',
             message: 'Veuillez réessayez.'
         });
-    </c:if>
+        </c:if>
+
+    });
 </script>
-
-
-<!-- Core JS Files -->
-<script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
-<!-- Plugins JS Files -->
-<script src="<c:url value="/assets/js/plugins/perfect-scrollbar.jquery.min.js" />"></script>
-<script src="<c:url value="/assets/js/plugins/bootstrap-notify.js" />"></script>
-<script src="<c:url value="/assets/js/black-dashboard.js?v=1.1.0"/>"></script>

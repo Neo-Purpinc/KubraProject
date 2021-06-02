@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar sticky-top navbar-expand-lg bg-primary">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -5,7 +6,8 @@
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
-
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarNav">
             <ul class="nav navbar-nav navbar-right ml-auto">
@@ -109,12 +111,3 @@
         $('#confirmationSuppressionModal').modal('show');
     }
 </script>
-
-<!-- Core JS Files -->
-<script src="<c:url value="/assets/js/core/jquery.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/popper.min.js"/>"></script>
-<script src="<c:url value="/assets/js/core/bootstrap.min.js"/>"></script>
-<!-- Plugins JS Files -->
-<script src="<c:url value="/assets/js/plugins/perfect-scrollbar.jquery.min.js" />"></script>
-<script src="<c:url value="/assets/js/plugins/bootstrap-notify.js" />"></script>
-<script src="<c:url value="/assets/js/black-dashboard.js?v=1.1.0"/>"></script>

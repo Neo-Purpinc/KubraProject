@@ -51,6 +51,8 @@ public class Connexion extends HttpServlet {
         /* Traitement de la requête et récupération des beans en résultant */
         Utilisateur utilisateur = form.connecterUtilisateur( request );
 
+        /* Récupération de la session depuis la requête */
+        HttpSession session = request.getSession();
         /**
          * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
          * Utilisateur à la session, sinon suppression du bean de la session.
@@ -60,8 +62,6 @@ public class Connexion extends HttpServlet {
             Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
             Porteaction porteaction = porteactionDao.trouver(utilisateur);
             portefeuille.setPorteaction(porteaction);
-            /* Récupération de la session depuis la requête */
-            HttpSession session = request.getSession();
             /* Ajout des variables sessions contenant le
                bean utilisateur et le bean portefeuille */
             session.setAttribute( ATT_SESSION_USER, utilisateur );
@@ -69,6 +69,7 @@ public class Connexion extends HttpServlet {
             session.setAttribute( "first_time",1);
             response.sendRedirect( request.getContextPath() + VUE );
         } else {
+            session.setAttribute( "error",2);
             response.sendRedirect( request.getContextPath() + REDIRECTION );
         }
     }
