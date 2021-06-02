@@ -46,7 +46,7 @@
                                     <i class="tim-icons icon-single-02"></i>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" id="emailInfos" name="emailInfos" value="<c:out value="${utilisateur.email}"/>" disabled>
+                            <input type="text" class="form-control" id="emailInfos" name="emailInfos" value="<c:out value="${sessionUtilisateur.email}"/>" disabled>
                         </div>
                         <div class="input-group no-border form-control-lg">
                             <div class="input-group-prepend">
