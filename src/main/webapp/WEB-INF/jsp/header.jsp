@@ -72,17 +72,18 @@
 
             </div>
             <div class="modal-footer">
-                <input type="submit" value="Enregistrer" class="btn btn-primary btn-round btn-lg btn-block">
                 <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-neutral btn-lg btn-block" value="Retour">
+                <input type="submit" value="Enregistrer" class="btn btn-primary btn-lg btn-block">
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade modal-black" id="confirmationSuppressionModal" tabindex="-1" role="dialog" aria-labelledby="confirmationSuppressionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationSuppressionModalLabel">Êtes-vous sûr ?</h5>
+            <div class="modal-header text-center">
+                <h5 class="modal-title txt-20px" id="confirmationSuppressionModalLabel">Êtes-vous sûr ?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="showInformations(); return false;">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
@@ -94,8 +95,8 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-neutral btn-round btn-lg btn-block" data-dismiss="modal" onclick="showInformations(); return false;">Retour</button>
-                <button type="button" class="btn btn-primary btn-round btn-lg btn-block" onclick="location.href='${pageContext.request.contextPath}/suppression'">Confirmer</button>
+                <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-neutral btn-lg btn-block" onclick="showInformations(); return false;" value="Retour">
+                <input type="button" value="Confirmer" class="btn btn-primary btn-lg btn-block" onclick="location.href='${pageContext.request.contextPath}/suppression'">
             </div>
         </div>
     </div>
