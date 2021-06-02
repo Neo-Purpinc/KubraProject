@@ -1,8 +1,6 @@
 package com.colne.kubra.dao;
 
-import com.colne.kubra.beans.Portefeuille;
-import com.colne.kubra.beans.Transaction;
-import com.colne.kubra.beans.Utilisateur;
+import com.colne.kubra.beans.*;
 
 import java.sql.*;
 
@@ -14,7 +12,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
     private static final String SQL_INSERTION_TRANSACTION   = 	" INSERT INTO Portefeuille (id_portefeuille, id_action, quantite, date, prix_unitaire, type)" +
                                                                 " VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_PAR_ID 	        = 	" SELECT *" +
-                                                                " FROM Portefeuille" +
+                                                                " FROM Portefeuille JOIN Action USING(id_action)" +
                                                                 " WHERE id_portefeuille = ?" +
                                                                 " ORDER BY date DESC";
     private static final String SQL_DELETE_PAR_ID 	        = 	" DELETE FROM Portefeuille WHERE id_portefeuille = ?";
@@ -29,13 +27,12 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Portefeuille portefeuille = new Portefeuille();
-
+        portefeuille.setId_portefeuille(utilisateur.getId());
         try {
             /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ID, false, utilisateur.getId() );
             resultSet = preparedStatement.executeQuery();
-            portefeuille.setId_portefeuille(utilisateur.getId());
             /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
             while ( resultSet.next() ) {
                 Transaction transaction = map( resultSet );
@@ -57,7 +54,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         try {
             /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, portefeuille.getId_portefeuille(), transaction.getId_action(), transaction.getQuantite(), transaction.getPrix_unitaire(), transaction.getDate(), transaction.getType());
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, portefeuille.getId_portefeuille(), transaction.getAction().getId_action(), transaction.getQuantite(), transaction.getPrix_unitaire(), transaction.getDate(), transaction.getType());
             int statut = preparedStatement.executeUpdate();
             /* Analyse du statut retourné par la requête d'insertion */
             if ( statut == 0 ) {
@@ -99,9 +96,13 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
      * ResultSet) et un bean Transaction.
      */
     private static Transaction map(ResultSet resultSet ) throws  SQLException {
+        Action action = new Action();
+        action.setId_action( resultSet.getLong("id_action") );
+        action.setNom( resultSet.getString("nom") );
+        action.setSymbole( resultSet.getString("symbole") );
         Transaction transaction = new Transaction();
         transaction.setId_portefeuille( resultSet.getLong( "id_portefeuille") );
-        transaction.setId_action( resultSet.getLong("id_action") );
+        transaction.setAction( action );
         transaction.setQuantite( resultSet.getInt("quantite") );
         transaction.setDate( resultSet.getTimestamp("date") );
         transaction.setPrix_unitaire( resultSet.getDouble("prix_unitaire") );

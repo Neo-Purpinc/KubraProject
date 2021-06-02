@@ -83,7 +83,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h5 class="modal-title txt-20px" id="confirmationSuppressionModalLabel">Êtes-vous sûr ?</h5>
+                <h6 class="modal-title txt-20px" id="confirmationSuppressionModalLabel">Êtes-vous sûr ?</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="showInformations(); return false;">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>

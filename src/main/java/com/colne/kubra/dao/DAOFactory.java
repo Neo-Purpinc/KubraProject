@@ -99,4 +99,6 @@ public class DAOFactory {
     public UtilisateurDao getUtilisateurDao() { return new UtilisateurDaoImpl( this ); }
 
     public PortefeuilleDao getPortefeuilleDao() { return new PortefeuilleDaoImpl(this); }
+
+    public PorteactionDao getPorteactionDao() { return new PorteactionDaoImpl(this); }
 }

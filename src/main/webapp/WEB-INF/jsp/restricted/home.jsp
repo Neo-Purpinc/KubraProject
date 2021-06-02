@@ -55,27 +55,25 @@
                 </div>
                 <div class="row padding-top-1rem h4rem w90">
                     <div class="col-12">
-                        <button class="btn btn-neutral btn-round float-lg-right">Accéder au détail</button>
+                        <button class="btn btn-neutral btn-round float-lg-right" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
                     </div>
                 </div>
                 <div class="row padding-top-1rem h-75 w90">
                     <div class="col-12 card">
                         <div class="card-body">
                             <div class="table-responsive ps">
-                                <table class="table tablesorter " id="tablePortefeuille">
-                                    <thead>
-
+                                <table class="table tablesorter " id="tablePortefeuille2">
+                                    <thead class="text-center">
+                                    <th>Nom</th>
+                                    <th>Symbole</th>
+                                    <th>Quantité</th>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" varStatus="status">
-                                        <tr>
-                                            <td class="text-center"><c:out value="${ status.count }" /></td>
-                                            <td><c:out value="${ transac.id_action}"/></td>
-                                            <td><c:out value="${ transac.quantite}"/></td>
-                                            <td><c:out value="${ transac.prix_unitaire}"/></td>
-                                            <td><c:out value="${ transac.prix_total}"/></td>
-                                            <td><c:out value="${ transac.type}"/></td>
-                                            <td><button class="btn btn-round btn-red">Vendre</button></td>
+                                    <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
+                                        <tr class="text-center">
+                                            <td><c:out value="${ item.key.nom }"/></td>
+                                            <td><c:out value="${ item.key.symbole }"/></td>
+                                            <td><c:out value="${ item.value }"/></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -95,7 +93,45 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade modal-black" id="monPortefeuilleModal" tabindex="-1" role="dialog" aria-labelledby="monPortefeuilleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h6 class="modal-title txt-20px" id="confirmationSuppressionModalLabel">Mon portefeuille détaillé</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="tim-icons icon-simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="h6 text-center sub-title" style="color:#BA54F5;">Historique des transactions</div>
+                <div class="table-responsive ps" >
+                    <table class="table tablesorter" style="max-height: 300px;" id="tablePortefeuille">
+                        <thead class="text-center">
+                        <th>Nom</th>
+                        <th>Symbole</th>
+                        <th>Type de transaction</th>
+                        <th>Quantité</th>
+                        <th>Prix Unitaire</th>
+                        <th>Prix Total</th>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" >
+                            <tr class="text-center">
+                                <td><c:out value="${ transac.action.nom}"/></td>
+                                <td><c:out value="${ transac.action.symbole}"/></td>
+                                <td class="${(transac.type == 'ACHAT') ? 'achat':'vente'}"><c:out value="${ transac.type}"/></td>
+                                <td><c:out value="${ transac.quantite}"/></td>
+                                <td><c:out value="${ transac.prix_unitaire} EUR"/></td>
+                                <td><c:out value="${ transac.prix_total} EUR"/></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <c:import url="../footer.jsp"/>
 
 <script>

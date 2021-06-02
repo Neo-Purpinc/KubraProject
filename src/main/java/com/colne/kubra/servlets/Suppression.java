@@ -41,7 +41,6 @@ public class Suppression extends HttpServlet {
         session.invalidate();
         /* Affichage de la page d'accueil */
         response.sendRedirect( request.getContextPath() + VUE );
-        System.out.println("doGet");
     }
 
 }

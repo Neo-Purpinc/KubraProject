@@ -8,7 +8,7 @@ public class Transaction {
     /************************** ATTRIBUTES **************************/
     /****************************************************************/
     private Long        id_portefeuille;
-    private Long        id_action;
+    private Action      action;
     private Integer     quantite;
     private Timestamp   date;
     private Double      prix_unitaire;
@@ -21,8 +21,8 @@ public class Transaction {
     public Long getId_portefeuille() { return this.id_portefeuille; }
     public void setId_portefeuille(Long id_portefeuille) { this.id_portefeuille = id_portefeuille; }
 
-    public Long getId_action() { return id_action; }
-    public void setId_action(Long id_action) { this.id_action = id_action; }
+    public Action getAction() { return action; }
+    public void setAction(Action action) { this.action = action; }
 
     public Integer getQuantite() { return quantite; }
     public void setQuantite(Integer quantite) { this.quantite = quantite; }
@@ -38,4 +38,6 @@ public class Transaction {
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+
+
 }

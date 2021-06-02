@@ -77,3 +77,12 @@ footer{
 .nav>li {
     float: left;
 }
+.btn-red{
+    background: #C42021;
+}
+.table > tbody > tr > td .achat{
+    color: #85CB33;
+}
+.table > tbody > tr > td .vente{
+    color: #C42021;
+}
