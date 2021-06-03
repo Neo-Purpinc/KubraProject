@@ -13,9 +13,11 @@ import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class PorteactionDaoImpl implements PorteactionDao {
     private DAOFactory          daoFactory;
-    private static final String SQL_SELECT_PAR_ID           =   " SELECT * FROM Porteaction JOIN Action USING(id_action) WHERE id_utilisateur = ?;";
-    private static final String SQL_DELETE_PAR_ID 	        = 	" DELETE FROM Porteaction WHERE id_utilisateur = ?";
-
+    private static final String SQL_SELECT_PAR_ID   =   " SELECT * FROM Porteaction JOIN Action USING(id_action) WHERE id_utilisateur = ?;";
+    private static final String SQL_DELETE_PAR_ID 	= 	" DELETE FROM Porteaction WHERE id_utilisateur = ?";
+    private static final String SQL_UPDATE          =   " UPDATE Porteaction" +
+                                                        " SET quantite = ?" +
+                                                        " WHERE id_utilisateur = ? && id_action = ?";
     PorteactionDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
     }
@@ -58,6 +60,27 @@ public class PorteactionDaoImpl implements PorteactionDao {
             /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, false, utilisateur.getId());
+            int statut = preparedStatement.executeUpdate();
+            /* Analyse du statut retourné par la requête d'insertion */
+            if ( statut == 0 ) {
+                throw new DAOException( "Échec de la suppression du portefeuille courant, aucune ligne supprimée dans la table." );
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( preparedStatement, connexion );
+        }
+    }
+
+    @Override
+    public void modifier(Transaction transaction, Integer quantite) {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE, false, quantite,transaction.getId_portefeuille(),transaction.getAction().getId_action());
             int statut = preparedStatement.executeUpdate();
             /* Analyse du statut retourné par la requête d'insertion */
             if ( statut == 0 ) {

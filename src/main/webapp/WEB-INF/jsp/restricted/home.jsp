@@ -74,7 +74,7 @@
                                             <td><c:out value="${ item.key.nom }"/></td>
                                             <td><c:out value="${ item.key.symbole }"/></td>
                                             <td><c:out value="${ item.value }"/></td>
-                                            <td><button type="button" onclick="showVenteModal(<c:out value="'${ item.key.nom }'"/>,<c:out value="'${ item.key.symbole }'"/>,<c:out value="'${ item.value }'"/>);return false;" class="btn btn-danger animation-on-hover">Vendre</button></td>
+                                            <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-danger animation-on-hover afficherVente">Vendre</button></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -105,7 +105,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="h6 text-center sub-title" style="color:#BA54F5;">Historique des transactions</div>
+                <div class="h6 text-center sub-title form-label">Historique des transactions</div>
                 <div class="table-responsive ps" >
                     <table class="table tablesorter" style="max-height: 300px;" id="tablePortefeuille">
                         <thead class="text-center">
@@ -139,25 +139,55 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h6 class="modal-title txt-20px" id="venteActionModalLabel"></h6>
-                <h6 class="modal-title" id="venteActionModalSousLabel"></h6>
+                <h6 class="modal-title txt-3rem" id="venteActionModalLabel"></h6>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
+                <h6 class="txt-20px" id="venteActionModalSousLabel"></h6>
+                <form class="pt-4" id="formVente" method="POST" action="vente">
+                    <div class="form-group">
+                        <label class="formLabel" for="ventePrix">Prix (€)</label>
+                        <input type="number" min="0" step="0.001" class="form-control text-center" id="ventePrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="formLabel" for="venteQuantite">Quantite</label>
+                        <input type="number" class="form-control text-center" min="0" id="venteQuantite" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="formLabel" for="venteDate">Date</label>
+                        <input type="date" class="form-control text-center" id="venteDate" required>
+                    </div>
+                    <input id="venteNom" type="hidden" required>
+                    <input id="venteQuantiteMax" type="hidden" required>
+                    <input id="venteType" type="hidden" value="VENTE" required>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger btn-lg btn-block" value="Annuler">
+                <input type="submit" value="Vendre" class="btn btn-neutral btn-lg btn-block" form="formVente">
             </div>
         </div>
     </div>
 </div>
 <c:import url="../footer.jsp"/>
 <script>
-    function showVenteModal(nom,symbole,quantite){
-        $("#venteActionModalLabel").innerHTML = nom.toString();
-        $("#venteActionModalSousLabel").innerHTML = symbole.toString();
-        $("#venteActionModal").modal('show');
-        console.log(symbole);
-    }
+    $(function(){
+        $('.afficherVente').click(function(){
+            $("#venteActionModalLabel").text($(this).data('name'));
+            $("#venteActionModalSousLabel").text($(this).data('symbole'));
+            $("#venteQuantite").attr({"max":$(this).data('quantite')});
+            $("#venteQuantiteMax").val($(this).data('quantite'));
+            $("#venteNom").val($(this).data('name'));
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+            $("#venteDate").val(today);
+            $("#venteActionModal").modal('show');
+        });
+    });
 </script>
 <script>
     $(function () {

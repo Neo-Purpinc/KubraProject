@@ -101,4 +101,6 @@ public class DAOFactory {
     public PortefeuilleDao getPortefeuilleDao() { return new PortefeuilleDaoImpl(this); }
 
     public PorteactionDao getPorteactionDao() { return new PorteactionDaoImpl(this); }
+
+    public ActionDao getActionDao() { return new ActionDaoImpl(this); }
 }

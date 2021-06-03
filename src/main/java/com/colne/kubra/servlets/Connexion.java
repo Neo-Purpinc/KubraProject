@@ -21,11 +21,8 @@ import com.colne.kubra.forms.ConnexionForm;
 @WebServlet("/connexion" )
 public class Connexion extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
-    public static final String ATT_USER         = "utilisateur";
-    public static final String ATT_FORM         = "form";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String ATT_SESSION_PORTEFEUILLE = "sessionPortefeuille";
-    public static final String ATT_SESSION_PORTEACTION = "sessionPorteaction";
     public static final String VUE              = "/home";
     public static final String REDIRECTION      = "/";
     private UtilisateurDao utilisateurDao;
@@ -59,8 +56,8 @@ public class Connexion extends HttpServlet {
          */
         if ( form.getErreurs().isEmpty() ) {
             /* Récupération du portefeuille */
-            Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
             Porteaction porteaction = porteactionDao.trouver(utilisateur);
+            Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
             portefeuille.setPorteaction(porteaction);
             /* Ajout des variables sessions contenant le
                bean utilisateur et le bean portefeuille */
