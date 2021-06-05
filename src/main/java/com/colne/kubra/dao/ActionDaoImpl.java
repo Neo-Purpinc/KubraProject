@@ -40,7 +40,6 @@ public class ActionDaoImpl implements ActionDao{
         } finally {
             fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
-
         return action;
     }
 

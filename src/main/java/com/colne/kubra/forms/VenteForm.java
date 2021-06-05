@@ -31,23 +31,36 @@ public class VenteForm {
     }
 
     public void ajouterVente(HttpServletRequest request){
+        //Récupération des champs et attributs nécessaires
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute( ATT_SESSION_USER );
         Portefeuille portefeuille = (Portefeuille) session.getAttribute( ATT_SESSION_PORTEFEUILLE );
-        String nom = request.getParameter(CHAMP_NOM) ;
-        String prix = request.getParameter(CHAMP_PRIX );
-        String quantite = request.getParameter(CHAMP_QUANTITE );
-        String quantiteMax = request.getParameter(CHAMP_MAX );
+        String nom = request.getParameter( CHAMP_NOM ) ;
+        Double prix = Double.valueOf( request.getParameter( CHAMP_PRIX ) );
+        Integer quantite = Integer.valueOf( request.getParameter( CHAMP_QUANTITE ) );
+        Integer quantiteMax = Integer.valueOf( request.getParameter( CHAMP_MAX ) );
         String type = request.getParameter( CHAMP_TYPE );
-        Integer nouvelleQuantite = Integer.parseInt(quantiteMax)-Integer.parseInt(quantite);
-        String date = request.getParameter(CHAMP_DATE );
+        Integer nouvelleQuantite = quantiteMax-quantite;
+        String date = request.getParameter( CHAMP_DATE );
+        System.out.println(nom);
+
+        //Récupération de l'action
+        Action action = actionDao.trouver(nom);
+        //Création de la transaction
         Transaction transaction = new Transaction();
         transaction.setId_portefeuille( utilisateur.getId() );
-        transaction.setAction( actionDao.trouver(nom) );
-        transaction.setPrix_unitaire( Double.valueOf(prix) );
-        transaction.setQuantite( Integer.valueOf(quantite) );
+        System.out.println(action);
+        System.out.println(action.getId_action() + " " + action.getNom() + " " + action.getSymbole());
+        transaction.setAction( action );
+        transaction.setPrix_unitaire( prix );
+        transaction.setQuantite( quantite );
         transaction.setDate( Timestamp.valueOf(date) );
         transaction.setType( type );
+        System.out.println("ActionId : "+ transaction.getAction().getId_action());
+        System.out.println("Prix : "+transaction.getPrix_unitaire());
+        System.out.println("Quantite : "+transaction.getQuantite());
+        System.out.println("Date : "+transaction.getDate());
+        System.out.println("Type : "+transaction.getType());
         portefeuilleDao.addTransaction( portefeuille,transaction );
         porteactionDao.modifier( transaction,nouvelleQuantite );
     }

@@ -8,9 +8,9 @@ import static com.colne.kubra.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class PortefeuilleDaoImpl implements PortefeuilleDao{
-    private DAOFactory          daoFactory;
-    private static final String SQL_INSERTION_TRANSACTION   = 	" INSERT INTO Portefeuille (id_portefeuille, id_action, quantite, date, prix_unitaire, type)" +
-                                                                " VALUES (?, ?, ?, ?, ?, ?)";
+    private DAOFactory          daoFactory;                     //TODO Rajouter date
+    private static final String SQL_INSERTION_TRANSACTION   = 	" INSERT INTO Portefeuille (id_portefeuille, id_action, quantite, prix_unitaire, type)" +
+                                                                " VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_PAR_ID 	        = 	" SELECT *" +
                                                                 " FROM Portefeuille JOIN Action USING(id_action)" +
                                                                 " WHERE id_portefeuille = ?" +
@@ -50,17 +50,17 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
     public Portefeuille addTransaction(Portefeuille portefeuille, Transaction transaction){
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
-
         try {
             /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, portefeuille.getId_portefeuille(), transaction.getAction().getId_action(), transaction.getQuantite(), transaction.getPrix_unitaire(), transaction.getDate(), transaction.getType());
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERTION_TRANSACTION, false, portefeuille.getId_portefeuille(), transaction.getAction().getId_action(), transaction.getQuantite(), transaction.getPrix_unitaire(), transaction.getType());
             int statut = preparedStatement.executeUpdate();
             /* Analyse du statut retourné par la requête d'insertion */
             if ( statut == 0 ) {
                 throw new DAOException( "Échec de la création de la transaction, aucune ligne ajoutée dans la table." );
             }
             portefeuille.addTransaction( transaction );
+            portefeuille.getPorteaction().modifier( transaction );
         } catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {

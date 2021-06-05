@@ -148,20 +148,20 @@
                 <h6 class="txt-20px" id="venteActionModalSousLabel"></h6>
                 <form class="pt-4" id="formVente" method="POST" action="vente">
                     <div class="form-group">
-                        <label class="formLabel" for="ventePrix">Prix (€)</label>
-                        <input type="number" min="0" step="0.001" class="form-control text-center" id="ventePrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
+                        <label class="formLabel" for="venteQuantite">Quantite</label>
+                        <input type="number" class="form-control text-center" min="0" id="venteQuantite" name="venteQuantite" placeholder="0" required>
                     </div>
                     <div class="form-group">
-                        <label class="formLabel" for="venteQuantite">Quantite</label>
-                        <input type="number" class="form-control text-center" min="0" id="venteQuantite" placeholder="0" required>
+                        <label class="formLabel" for="ventePrix">Prix (€)</label>
+                        <input type="number" min="0" step="0.001" class="form-control text-center" id="ventePrix" name="ventePrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
                     </div>
                     <div class="form-group">
                         <label class="formLabel" for="venteDate">Date</label>
-                        <input type="date" class="form-control text-center" id="venteDate" required>
+                        <input type="text" class="form-control datepicker text-center" id="venteDate" name="venteDate" required>
                     </div>
-                    <input id="venteNom" type="hidden" required>
-                    <input id="venteQuantiteMax" type="hidden" required>
-                    <input id="venteType" type="hidden" value="VENTE" required>
+                    <input id="venteNom" name="venteNom" type="hidden" required>
+                    <input id="venteQuantiteMax" name="venteQuantiteMax" type="hidden" required>
+                    <input id="venteType" name="venteType" type="hidden" value="VENTE" required>
                 </form>
             </div>
             <div class="modal-footer">
@@ -180,11 +180,8 @@
             $("#venteQuantite").attr({"max":$(this).data('quantite')});
             $("#venteQuantiteMax").val($(this).data('quantite'));
             $("#venteNom").val($(this).data('name'));
-            var now = new Date();
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-            $("#venteDate").val(today);
+            var date = new Date().toISOString().substr(0, 19).replace('T', ' ');
+            $("#venteDate").val(date);
             $("#venteActionModal").modal('show');
         });
     });

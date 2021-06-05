@@ -36,11 +36,9 @@ public class Vente extends HttpServlet {
     }
 
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        System.out.println(request.getAttribute("venteNom"));
-        System.out.println(request.getParameter("venteNom"));
         VenteForm form = new VenteForm(portefeuilleDao,porteactionDao,actionDao);
         form.ajouterVente(request);
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        response.sendRedirect( request.getContextPath() + VUE );
     }
 
 
