@@ -1,8 +1,8 @@
 {
 	"version": 3,
-	"file": "dashboard-free.css",
+	"file": "black-dashboard.css",
 	"sources": [
-		"../scss/dashboard-free.scss",
+		"../scss/black-dashboard.scss",
 		"../scss/custom/_functions.scss",
 		"../scss/bootstrap/_functions.scss",
 		"../scss/custom/_variables.scss",

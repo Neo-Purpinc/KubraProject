@@ -1,13 +1,20 @@
+/* Général */
 footer{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
+    min-height: 1rem;
     background-color: rgba(30,30,47,0.5);
 }
-.btn-perso{
-    background: white;
-    color: #BA54F5;
+.content{
+    position : fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 1rem;
+    width:100%;
+    height: 100%;
 }
 #myVideo {
     position: fixed;
@@ -16,12 +23,22 @@ footer{
     min-width: 100%;
     min-height: 100%;
 }
-.content{
-    position : fixed;
-    top:0;
-    width:100%;
-    height: 100%;
+/* Couleurs */
+td .achat {
+    color: #85CB33;
 }
+td .vente{
+    color: #C42021;
+}
+.formLabel{
+    color:#BA54F5;
+}
+.btn-perso{
+    background: white;
+    color: #BA54F5;
+}
+
+/* Textes */
 .txt-20px{
     font-size: 20px;
     margin:0 auto;
@@ -52,7 +69,6 @@ footer{
     line-height: 5.7;
     box-shadow: 0 5px 50px 0 rgba(0,0,0,.3);
 }
-
 .form-check-sign{
     background: rgb(30,30,47);
     color:white;
@@ -69,20 +85,6 @@ footer{
 .h4rem{
     height: 4rem;
 }
-.fullwidth{
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
 .nav>li {
     float: left;
-}
-.table > tbody > tr > td .achat{
-    color: #85CB33;
-}
-.table > tbody > tr > td .vente{
-    color: #C42021;
-}
-.formLabel{
-    color:#BA54F5;
 }

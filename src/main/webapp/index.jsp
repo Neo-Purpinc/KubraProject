@@ -44,7 +44,6 @@
                 <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#registerModal">Inscription</button>
                 <br>
                 <button class="btn btn-neutral btn-round btn-lg" data-toggle="modal" data-target="#loginModal">Connexion</button>
-                </div>
             </div>
         </div>
     </div>
@@ -69,7 +68,6 @@
                                     </div>
                                 </div>
                                 <input type="email" id="email" name="email" class="form-control" placeholder="Adresse email" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" required>
-                                <span class="erreur">${form.erreurs['email']}</span>
                             </div>
                             <div class="input-group no-border form-control-lg">
                                 <div class="input-group-prepend">
@@ -79,7 +77,6 @@
                                 </div>
                                 <input type="password" id="motdepasse" name="motdepasse" placeholder="Mot de passe" class="form-control" value="" size="32" maxlength="32" required>
                             </div>
-                            <span class="erreur">${form.erreurs['motdepasse']}</span>
                             <div class="input-group no-border form-control-lg">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -87,7 +84,6 @@
                                     </div>
                                 </div>
                                 <input type="password" id="confirmation" name="confirmation" placeholder="Confirmation du mot de passe" class="form-control" value="" size="32" maxlength="32" required>
-                                <span class="erreur">${form.erreurs['confirmation']}</span>
                             </div>
                             <div class="form-check">
                                 <label class="form-check-label">
@@ -99,7 +95,6 @@
                                 </label>
                                 <a href="#" id="showCGU" onclick="showCGU();return false;" class="text-info">CGU</a>.
                             </div>
-                            ${form.resultat}
                         </div>
                         <input type="submit" value="Inscription" class="btn btn-neutral btn-round btn-lg btn-block">
                     </form>
@@ -133,7 +128,6 @@
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" id="emailLogin" name="emailLogin" placeholder="Adresse e-mail" required>
-                                <span class="erreur">${form.erreurs['emailLogin']}</span>
                             </div>
                             <div class="input-group no-border form-control-lg">
                                 <div class="input-group-prepend">
@@ -142,9 +136,7 @@
                                     </div>
                                 </div>
                                 <input type="password" class="form-control" id="motdepasseLogin" name="motdepasseLogin" placeholder="Mot de passe" required>
-                                <span class="erreur">${form.erreurs['motdepasseLogin']}</span>
                             </div>
-                            ${form.resultat}
                         </div>
                         <input type="submit" value="Connexion" class="btn btn-neutral btn-round btn-lg btn-block">
                     </form>

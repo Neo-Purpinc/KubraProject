@@ -1,8 +1,8 @@
 <c:import url="../header.jsp" />
 <div class="content">
-    <div class="container-fluid padding-top-65 h-100">
-        <div class="row h-100">
-            <div class="col-lg-6" align="center">
+    <div class="container-fluid padding-top-65 mb-2">
+        <div class="row">
+            <div class="col-lg-6 mb-5" align="center">
                 <div class="row">
                     <h6 class="modal-title txt-3rem">Classement</h6>
                 </div>
@@ -32,11 +32,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row padding-top-1rem h-75 w90">
+                <div class="row padding-top-1rem w90">
                     <div class="col-12 card">
                         <div class="card-body">
                             <div class="table-responsive ps">
-                                <table class="table tablesorter " id="tableClassement">
+                                <table class="table" id="tableClassement">
                                     <thead>
 
                                     </thead>
@@ -58,15 +58,17 @@
                         <button class="btn btn-neutral btn-round float-lg-right animation-on-hover" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
                     </div>
                 </div>
-                <div class="row padding-top-1rem h-75 w90">
+                <div class="row padding-top-1rem w90">
                     <div class="col-12 card">
                         <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table tablesorter " id="tablePorteactions">
+                            <div class="table-responsive" id="tablePorteactionsDiv" style="max-height: 500px" >
+                                <table class="table table-hover" id="tablePorteactions">
                                     <thead class="text-center">
-                                    <th>Nom</th>
-                                    <th>Symbole</th>
-                                    <th>Quantité</th>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Symbole</th>
+                                        <th>Quantité</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
@@ -83,13 +85,6 @@
                         </div>
                     </div>
                 </div>
-                <%--
-                <c:if test="${empty portefeuille}">
-                    <div class="row w90">
-                        <img src="<c:url value="/assets/videos/logo.gif" />" alt="logo360" width="15%" />
-                    </div>
-                </c:if>
-                --%>
             </div>
         </div>
     </div>
@@ -105,23 +100,25 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="h6 text-center sub-title form-label">Historique des transactions</div>
-                <div class="table-responsive ps" >
-                    <table class="table tablesorter" style="max-height: 300px;" id="tablePortefeuille">
+                <div class="h6 text-center sub-title formLabel">Historique des transactions</div>
+                <div class="table-responsive " style="max-height: 300px;" >
+                    <table class="table" id="tablePortefeuille">
                         <thead class="text-center">
+                        <tr>
                             <th>Nom</th>
                             <th>Symbole</th>
                             <th>Type de transaction</th>
                             <th>Quantité</th>
                             <th>Prix Unitaire</th>
                             <th>Prix Total</th>
+                        </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" >
                             <tr class="text-center">
                                 <td><c:out value="${ transac.action.nom}"/></td>
                                 <td><c:out value="${ transac.action.symbole}"/></td>
-                                <td class="${(transac.type == 'ACHAT') ? 'achat':'vente'}"><c:out value="${ transac.type}"/></td>
+                                <td class="${(transac.type == 'ACHAT') ? 'achat' : 'vente'}"><c:out value="${ transac.type }"/></td>
                                 <td><c:out value="${ transac.quantite}"/></td>
                                 <td><c:out value="${ transac.prix_unitaire} EUR"/></td>
                                 <td><c:out value="${ transac.prix_total} EUR"/></td>
@@ -180,10 +177,16 @@
             $("#venteQuantite").attr({"max":$(this).data('quantite')});
             $("#venteQuantiteMax").val($(this).data('quantite'));
             $("#venteNom").val($(this).data('name'));
-            var date = new Date().toISOString().substr(0, 19).replace('T', ' ');
+            let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
             $("#venteDate").val(date);
             $("#venteActionModal").modal('show');
         });
+        const ps = new PerfectScrollbar('#tablePorteactions');
+        console.log(ps.reach.x);
+        console.log(ps.reach.y);
+        const ps2 = new PerfectScrollbar('#tablePorteactionsDiv');
+        console.log(ps2.reach.x);
+        console.log(ps2.reach.y);
     });
 </script>
 <script>

@@ -13,7 +13,7 @@ import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class PorteactionDaoImpl implements PorteactionDao {
     private DAOFactory          daoFactory;
-    private static final String SQL_SELECT_PAR_ID   =   " SELECT * FROM Porteaction JOIN Action USING(id_action) WHERE id_utilisateur = ?;";
+    private static final String SQL_SELECT_PAR_ID   =   " SELECT * FROM Porteaction JOIN Action USING(id_action) WHERE id_utilisateur = ? ORDER BY id_action;";
     private static final String SQL_DELETE_PAR_ID 	= 	" DELETE FROM Porteaction WHERE id_utilisateur = ?";
     private static final String SQL_UPDATE          =   " UPDATE Porteaction" +
                                                         " SET quantite = ?" +
