@@ -76,18 +76,13 @@ td .vente{
 .nav>li {
     float: left;
 }
-/*Pour tous les appareils équipés d'écrans et dont la taille est inférieure à 780px*/
-@media screen and (min-width: 768px){
-    .tableDiv {
-        overflow: auto;
-        max-height: 650px;
-    }
+.tableDiv {
+    overflow: auto;
+    max-height: 650px;
 }
-@media screen and (max-width: 768px){
+@media screen and (max-height: 768px){
     .tableDiv {
-        overflow: auto;
         max-height: 475px;
     }
 }
-
 .tableDiv thead tr { position: sticky; top:0; z-index: 1; background: #27293d;}

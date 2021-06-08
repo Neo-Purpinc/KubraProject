@@ -76,7 +76,7 @@
                                         <td><c:out value="${ item.key.nom }"/></td>
                                         <td><c:out value="${ item.key.symbole }"/></td>
                                         <td><c:out value="${ item.value }"/></td>
-                                        <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-danger btn-animation-on-hover afficherVente">Vendre</button></td>
+                                        <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover afficherVente">Vendre</button></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
