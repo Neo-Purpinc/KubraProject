@@ -1,87 +1,86 @@
-<c:import url="../header.jsp" />
-<div class="content">
-    <div class="container-fluid padding-top-65 mb-2">
-        <div class="row">
-            <div class="col-lg-6 mb-5" align="center">
-                <div class="row">
-                    <h6 class="modal-title txt-3rem">Classement</h6>
-                </div>
-                <div class="row padding-top-1rem h4rem" align="center">
-                    <div class="col-12">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                                <input type="radio" name="options" checked="">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
-                                <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="1">
-                                <input type="radio" class="d-none d-sm-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Hebdomadaire</span>
-                                <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="2">
-                                <input type="radio" class="d-none d-sm-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Mensuel</span>
-                                <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="3">
-                                <input type="radio" class="d-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Annuel</span>
-                                <span class="d-block d-sm-none"><i class="tim-icons icon-tap-02"></i></span>
-                            </label>
-                        </div>
+ <c:import url="../header.jsp" />
+<div class="container-fluid" id="contenu">
+    <div class="row">
+        <div class="col-lg-6" align="center">
+            <div class="row">
+                <h6 class="modal-title txt-3rem">Classement</h6>
+            </div>
+            <div class="row mt-3 h4rem" align="center">
+                <div class="col-12">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary btn-simple active" id="0">
+                            <input type="radio" name="options" checked="">
+                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
+                            <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-simple" id="1">
+                            <input type="radio" class="d-none d-sm-none" name="options">
+                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Hebdomadaire</span>
+                            <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-simple" id="2">
+                            <input type="radio" class="d-none d-sm-none" name="options">
+                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Mensuel</span>
+                            <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-simple" id="3">
+                            <input type="radio" class="d-none" name="options">
+                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Annuel</span>
+                            <span class="d-block d-sm-none"><i class="tim-icons icon-tap-02"></i></span>
+                        </label>
                     </div>
                 </div>
-                <div class="row padding-top-1rem w90">
-                    <div class="col-12 card">
-                        <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table" id="tableClassement">
-                                    <thead>
+            </div>
+            <div class="row mt-3 w90">
+                <div class="col-12 card">
+                    <div class="card-body">
+                        <div class="table-responsive tableDiv">
+                            <table class="table" id="tableClassement">
+                                <thead>
 
-                                    </thead>
-                                    <tbody>
+                                </thead>
+                                <tbody>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6" align="center">
-                <div class="row">
-                    <h6 class="modal-title txt-3rem">Mon portefeuille</h6>
+        </div>
+        <div class="col-lg-6" align="center">
+            <div class="row">
+                <h6 class="modal-title txt-3rem">Portefeuille</h6>
+            </div>
+            <div class="row mt-3 h4rem w90">
+                <div class="col-12">
+                    <button class="btn btn-neutral btn-round float-lg-right animation-on-hover" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
                 </div>
-                <div class="row padding-top-1rem h4rem w90">
-                    <div class="col-12">
-                        <button class="btn btn-neutral btn-round float-lg-right animation-on-hover" data-toggle="modal" data-target="#monPortefeuilleModal">Accéder au détail</button>
-                    </div>
-                </div>
-                <div class="row padding-top-1rem w90">
-                    <div class="col-12 card">
-                        <div class="card-body">
-                            <div class="table-responsive" id="tablePorteactionsDiv" style="max-height: 500px" >
-                                <table class="table table-hover" id="tablePorteactions">
-                                    <thead class="text-center">
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Symbole</th>
-                                        <th>Quantité</th>
+            </div>
+            <div class="row mt-3 w90">
+                <div class="col-12 card">
+                    <div class="card-body">
+                        <div class="table-responsive tableDiv" id="tablePorteactionsDiv" >
+                            <table class="table" id="tablePorteactions">
+                                <thead class="text-center">
+                                <tr>
+                                    <th ><span class="text-primary">Nom</span></th>
+                                    <th ><span class="text-primary">Symbole</span></th>
+                                    <th ><span class="text-primary">Quantité</span></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
+                                    <tr class="text-center">
+                                        <td><c:out value="${ item.key.nom }"/></td>
+                                        <td><c:out value="${ item.key.symbole }"/></td>
+                                        <td><c:out value="${ item.value }"/></td>
+                                        <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-danger btn-animation-on-hover afficherVente">Vendre</button></td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
-                                        <tr class="text-center">
-                                            <td><c:out value="${ item.key.nom }"/></td>
-                                            <td><c:out value="${ item.key.symbole }"/></td>
-                                            <td><c:out value="${ item.value }"/></td>
-                                            <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-danger animation-on-hover afficherVente">Vendre</button></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -89,6 +88,7 @@
         </div>
     </div>
 </div>
+    <c:import url="../footer.jsp"/>
 <!-- Mon portefeuille détaillé Modal-->
 <div class="modal fade modal-black" id="monPortefeuilleModal" tabindex="-1" role="dialog" aria-labelledby="monPortefeuilleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -100,9 +100,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="h6 text-center sub-title formLabel">Historique des transactions</div>
-                <div class="table-responsive " style="max-height: 300px;" >
-                    <table class="table" id="tablePortefeuille">
+                <div class="h6 text-center sub-title text-primary">Historique des transactions</div>
+                <div class="table-responsive tableDiv" >
+                    <table class="table"  id="tablePortefeuille">
                         <thead class="text-center">
                         <tr>
                             <th>Nom</th>
@@ -145,15 +145,15 @@
                 <h6 class="txt-20px" id="venteActionModalSousLabel"></h6>
                 <form class="pt-4" id="formVente" method="POST" action="vente">
                     <div class="form-group">
-                        <label class="formLabel" for="venteQuantite">Quantite</label>
+                        <label class="text-primary" for="venteQuantite">Quantite</label>
                         <input type="number" class="form-control text-center" min="0" id="venteQuantite" name="venteQuantite" placeholder="0" required>
                     </div>
                     <div class="form-group">
-                        <label class="formLabel" for="ventePrix">Prix (€)</label>
+                        <label class="text-primary" for="ventePrix">Prix (€)</label>
                         <input type="number" min="0" step="0.001" class="form-control text-center" id="ventePrix" name="ventePrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
                     </div>
                     <div class="form-group">
-                        <label class="formLabel" for="venteDate">Date</label>
+                        <label class="text-primary" for="venteDate">Date</label>
                         <input type="text" class="form-control datepicker text-center" id="venteDate" name="venteDate" required>
                     </div>
                     <input id="venteNom" name="venteNom" type="hidden" required>
@@ -168,10 +168,9 @@
         </div>
     </div>
 </div>
-<c:import url="../footer.jsp"/>
 <script>
     $(function(){
-        $('.afficherVente').click(function(){
+        $('.afficherVente').on('click', function(){
             $("#venteActionModalLabel").text($(this).data('name'));
             $("#venteActionModalSousLabel").text($(this).data('symbole'));
             $("#venteQuantite").attr({"max":$(this).data('quantite')});
@@ -181,12 +180,6 @@
             $("#venteDate").val(date);
             $("#venteActionModal").modal('show');
         });
-        const ps = new PerfectScrollbar('#tablePorteactions');
-        console.log(ps.reach.x);
-        console.log(ps.reach.y);
-        const ps2 = new PerfectScrollbar('#tablePorteactionsDiv');
-        console.log(ps2.reach.x);
-        console.log(ps2.reach.y);
     });
 </script>
 <script>

@@ -7,14 +7,8 @@ footer{
     min-height: 1rem;
     background-color: rgba(30,30,47,0.5);
 }
-.content{
-    position : fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom: 1rem;
-    width:100%;
-    height: 100%;
+#contenu{
+    margin-top: 1rem;
 }
 #myVideo {
     position: fixed;
@@ -30,7 +24,7 @@ td .achat {
 td .vente{
     color: #C42021;
 }
-.formLabel{
+.pinky{
     color:#BA54F5;
 }
 .btn-perso{
@@ -73,12 +67,6 @@ td .vente{
     background: rgb(30,30,47);
     color:white;
 }
-.padding-top-65{
-    padding-top: 65px;
-}
-.padding-top-1rem{
-    padding-top: 1rem;
-}
 .w90{
     width: 90%;
 }
@@ -88,3 +76,18 @@ td .vente{
 .nav>li {
     float: left;
 }
+/*Pour tous les appareils équipés d'écrans et dont la taille est inférieure à 780px*/
+@media screen and (min-width: 768px){
+    .tableDiv {
+        overflow: auto;
+        max-height: 650px;
+    }
+}
+@media screen and (max-width: 768px){
+    .tableDiv {
+        overflow: auto;
+        max-height: 475px;
+    }
+}
+
+.tableDiv thead tr { position: sticky; top:0; z-index: 1; background: #27293d;}
