@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="row mt-3 w90">
-                <div class="col-12 card">
+                <div class="col-12 card" id="fixMobile">
                     <div class="card-body">
                         <div class="table-responsive tableDiv" id="tablePorteactionsDiv" >
                             <table class="table" id="tablePorteactions">

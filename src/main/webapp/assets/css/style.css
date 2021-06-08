@@ -85,4 +85,17 @@ td .vente{
         max-height: 475px;
     }
 }
+@media screen and (max-width: 768px){
+    .tableDiv {
+        max-height: 475px;
+    }
+    #fixMobile {
+        margin-bottom: 3rem;
+    }
+}
+@media screen and (max-width: 408px){
+    #fixMobile {
+        margin-bottom: 4rem;
+    }
+}
 .tableDiv thead tr { position: sticky; top:0; z-index: 1; background: #27293d;}
