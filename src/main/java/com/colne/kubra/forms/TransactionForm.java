@@ -12,25 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 
-public class VenteForm {
+public class TransactionForm {
     public static final String          ATT_SESSION_USER            = "sessionUtilisateur";
     public static final String          ATT_SESSION_PORTEFEUILLE    = "sessionPortefeuille";
-    public static final String          CHAMP_NOM                   = "venteNom";
-    public static final String          CHAMP_PRIX                  = "ventePrix";
-    public static final String          CHAMP_QUANTITE              = "venteQuantite";
-    public static final String          CHAMP_MAX                   = "venteQuantiteMax";
-    public static final String          CHAMP_DATE                  = "venteDate";
-    public static final String          CHAMP_TYPE                  = "venteType";
+    public static final String          CHAMP_NOM                   = "transactionNom";
+    public static final String          CHAMP_PRIX                  = "transactionPrix";
+    public static final String          CHAMP_QUANTITE              = "transactionQuantite";
+    public static final String          CHAMP_MAX                   = "transactionQuantiteMax";
+    public static final String          CHAMP_DATE                  = "transactionDate";
+    public static final String          CHAMP_TYPE                  = "transactionType";
     private PortefeuilleDao portefeuilleDao;
     private PorteactionDao porteactionDao;
     private ActionDao actionDao;
-    public VenteForm(PortefeuilleDao portefeuilleDao, PorteactionDao porteactionDao, ActionDao actionDao) {
+    
+    public TransactionForm(PortefeuilleDao portefeuilleDao, PorteactionDao porteactionDao, ActionDao actionDao) {
         this.portefeuilleDao = portefeuilleDao;
         this.porteactionDao = porteactionDao;
         this.actionDao = actionDao;
     }
 
-    public void ajouterVente(HttpServletRequest request){
+    public void ajouterTransaction(HttpServletRequest request){
         //Récupération des champs et attributs nécessaires
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute( ATT_SESSION_USER );
@@ -38,13 +39,20 @@ public class VenteForm {
         String nom = request.getParameter( CHAMP_NOM ) ;
         Double prix = Double.valueOf( request.getParameter( CHAMP_PRIX ) );
         Integer quantite = Integer.valueOf( request.getParameter( CHAMP_QUANTITE ) );
-        Integer quantiteMax = Integer.valueOf( request.getParameter( CHAMP_MAX ) );
         String type = request.getParameter( CHAMP_TYPE );
-        Integer nouvelleQuantite = quantiteMax - quantite;
-        String date = request.getParameter( CHAMP_DATE );
-
         //Récupération de l'action
         Action action = actionDao.trouver(nom);
+
+        Integer nouvelleQuantite;
+        if ("VENTE".equals(type)) {
+            Integer quantiteMax = Integer.valueOf(request.getParameter(CHAMP_MAX));
+            nouvelleQuantite = quantiteMax - quantite;
+        } else {
+            Integer ancienneQuantite = portefeuille.getPorteaction().getQuantite(action);
+            nouvelleQuantite = ancienneQuantite + quantite;
+        }
+
+        String date = request.getParameter( CHAMP_DATE );
         //Création de la transaction
         Transaction transaction = new Transaction();
         transaction.setId_portefeuille( utilisateur.getId() );
@@ -55,6 +63,7 @@ public class VenteForm {
         transaction.setType( type );
 
         portefeuilleDao.addTransaction( portefeuille,transaction );
+
         porteactionDao.modifier( transaction,nouvelleQuantite );
     }
 }

@@ -5,32 +5,6 @@
             <div class="row">
                 <h6 class="modal-title txt-3rem">Classement</h6>
             </div>
-            <div class="row mt-3 h4rem" align="center">
-                <div class="col-12">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                            <input type="radio" name="options" checked="">
-                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Quotidien</span>
-                            <span class="d-block d-sm-none"><i class="tim-icons icon-single-02"></i></span>
-                        </label>
-                        <label class="btn btn-sm btn-primary btn-simple" id="1">
-                            <input type="radio" class="d-none d-sm-none" name="options">
-                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Hebdomadaire</span>
-                            <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
-                        </label>
-                        <label class="btn btn-sm btn-primary btn-simple" id="2">
-                            <input type="radio" class="d-none d-sm-none" name="options">
-                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Mensuel</span>
-                            <span class="d-block d-sm-none"><i class="tim-icons icon-gift-2"></i></span>
-                        </label>
-                        <label class="btn btn-sm btn-primary btn-simple" id="3">
-                            <input type="radio" class="d-none" name="options">
-                            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Annuel</span>
-                            <span class="d-block d-sm-none"><i class="tim-icons icon-tap-02"></i></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
             <div class="row mt-3 w90">
                 <div class="col-12 card">
                     <div class="card-body">

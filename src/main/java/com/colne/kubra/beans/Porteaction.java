@@ -12,7 +12,7 @@ public class Porteaction {
 
     public HashMap<Action, Integer> getActions_quantites() { return actions_quantites; }
     public void setActions_quantites(HashMap<Action, Integer> actions_quantites) { this.actions_quantites = actions_quantites; }
-    private Integer getQuantite(Action action){
+    public Integer getQuantite(Action action){
         Integer retour = null;
         for (Map.Entry<Action, Integer> entry : actions_quantites.entrySet()) {
             Action key = entry.getKey();

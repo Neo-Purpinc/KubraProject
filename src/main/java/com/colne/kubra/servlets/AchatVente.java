@@ -1,27 +1,23 @@
 package com.colne.kubra.servlets;
 
-import com.colne.kubra.beans.Portefeuille;
-import com.colne.kubra.beans.Transaction;
-import com.colne.kubra.beans.Utilisateur;
 import com.colne.kubra.dao.*;
-import com.colne.kubra.forms.VenteForm;
+import com.colne.kubra.forms.TransactionForm;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 @WebServlet("/transaction")
-public class Vente extends HttpServlet {
+public class AchatVente extends HttpServlet {
     public static final String          CONF_DAO_FACTORY            = "daofactory";
     public static final String          VUE                         = "/home";
     private             ActionDao       actionDao;
     private             PortefeuilleDao portefeuilleDao;
     private             PorteactionDao  porteactionDao;
+
     public void init() throws ServletException {
         /* Récupération d'une instance de notre DAO Utilisateur */
         DAOFactory factory = (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY );
@@ -36,8 +32,8 @@ public class Vente extends HttpServlet {
     }
 
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        VenteForm form = new VenteForm(portefeuilleDao,porteactionDao,actionDao);
-        form.ajouterVente(request);
+        TransactionForm form = new TransactionForm(portefeuilleDao,porteactionDao,actionDao);
+        form.ajouterTransaction(request);
         response.sendRedirect( request.getContextPath() + VUE );
     }
 
