@@ -162,13 +162,14 @@
                 $.each(jsonArray, function(index,action){
                     let nom = action.nom;
                     let symbole = action.symbole;
-                    let bouton = "<button class='btn btn-sm btn-success animation-on-hover afficherTransaction' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                    let acheter = "<button class='btn btn-sm btn-success animation-on-hover afficherTransaction' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                    let bouton = "<a class='btn btn-sm btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
                     $('<tr>').addClass("text-center").append(
                         $('<td>').text(index+1),
                         $('<td>').text(nom),
                         $('<td>').text(symbole),
-                        $('<td>').html("<button class='btn btn-sm btn-neutral animation-on-hover' type='button'>+ d'infos</button>"),
-                        $('<td>').html(bouton)
+                        $('<td>').html(bouton),
+                        $('<td>').html(acheter)
                     ).appendTo('#tableClassement');
                 });
             },
@@ -186,7 +187,7 @@
                 $("#transactionQuantiteMax").val($(this).data('quantite'));
                 $("#submitTransactionForm").val("Vendre")
             } else{
-                $("#submitTransactionForm").val("Acheterr")
+                $("#submitTransactionForm").val("Acheter")
             }
             $("#transactionNom").val($(this).data('nom'));
             let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
