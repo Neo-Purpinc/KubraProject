@@ -12,9 +12,9 @@
                             <table class="table" id="tableClassement">
                                 <thead class="text-center">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Nom</th>
-                                        <th>Symbole</th>
+                                        <th><span class="text-primary">#</span></th>
+                                        <th><span class="text-primary">Nom</span></th>
+                                        <th><span class="text-primary">Symbole</span></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
