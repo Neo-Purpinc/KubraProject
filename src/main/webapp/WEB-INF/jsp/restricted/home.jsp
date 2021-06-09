@@ -46,9 +46,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <div class="loader"></div>
+
                                 </tbody>
                             </table>
+                            <div class="loader"></div>
                         </div>
                     </div>
                 </div>
