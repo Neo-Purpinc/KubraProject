@@ -36,11 +36,17 @@
                     <div class="card-body">
                         <div class="table-responsive tableDiv">
                             <table class="table" id="tableClassement">
-                                <thead>
-
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nom</th>
+                                        <th>Symbole</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-
+                                <div class="loader"></div>
                                 </tbody>
                             </table>
                         </div>
@@ -76,7 +82,7 @@
                                         <td><c:out value="${ item.key.nom }"/></td>
                                         <td><c:out value="${ item.key.symbole }"/></td>
                                         <td><c:out value="${ item.value }"/></td>
-                                        <td><button type="button" data-name="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover afficherVente">Vendre</button></td>
+                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover afficherTransaction">Vendre</button></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -118,7 +124,7 @@
                             <tr class="text-center">
                                 <td><c:out value="${ transac.action.nom}"/></td>
                                 <td><c:out value="${ transac.action.symbole}"/></td>
-                                <td class="${(transac.type == 'ACHAT') ? 'achat' : 'vente'}"><c:out value="${ transac.type }"/></td>
+                                <td class="${ transac.type.equals('ACHAT') ? 'text-info' : 'text-danger'}"><c:out value="${ transac.type }"/></td>
                                 <td><c:out value="${ transac.quantite}"/></td>
                                 <td><c:out value="${ transac.prix_unitaire} EUR"/></td>
                                 <td><c:out value="${ transac.prix_total} EUR"/></td>
@@ -132,55 +138,91 @@
     </div>
 </div>
 <!-- Vente d'actions Modal -->
-<div class="modal fade modal-black" id="venteActionModal" tabindex="-1" role="dialog" aria-labelledby="venteActionModalLabel" aria-hidden="true">
+<div class="modal fade modal-black" id="transactionActionModal" tabindex="-1" role="dialog" aria-labelledby="transactionActionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h6 class="modal-title txt-3rem" id="venteActionModalLabel"></h6>
+                <h6 class="modal-title txt-3rem" id="transactionActionModalLabel"></h6>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
             </div>
             <div class="modal-body text-center">
-                <h6 class="txt-20px" id="venteActionModalSousLabel"></h6>
-                <form class="pt-4" id="formVente" method="POST" action="vente">
+                <h6 class="txt-20px" id="transactionActionModalSousLabel"></h6>
+                <form class="pt-4" id="formTransaction" method="POST" action="transaction">
                     <div class="form-group">
-                        <label class="text-primary" for="venteQuantite">Quantite</label>
-                        <input type="number" class="form-control text-center" min="0" id="venteQuantite" name="venteQuantite" placeholder="0" required>
+                        <label class="text-primary" for="transactionQuantite">Quantite</label>
+                        <input type="number" class="form-control text-center" min="0" id="transactionQuantite" name="transactionQuantite" placeholder="0" required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary" for="ventePrix">Prix (€)</label>
-                        <input type="number" min="0" step="0.001" class="form-control text-center" id="ventePrix" name="ventePrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
+                        <label class="text-primary" for="transactionPrix">Prix (€)</label>
+                        <input type="number" min="0" step="0.001" class="form-control text-center" id="transactionPrix" name="transactionPrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary" for="venteDate">Date</label>
-                        <input type="text" class="form-control datepicker text-center" id="venteDate" name="venteDate" required>
+                        <label class="text-primary" for="transactionDate">Date</label>
+                        <input type="text" class="form-control datepicker text-center" id="transactionDate" name="transactionDate" required>
                     </div>
-                    <input id="venteNom" name="venteNom" type="hidden" required>
-                    <input id="venteQuantiteMax" name="venteQuantiteMax" type="hidden" required>
-                    <input id="venteType" name="venteType" type="hidden" value="VENTE" required>
+                    <input id="transactionNom" name="transactionNom" type="hidden" required>
+                    <input id="transactionQuantiteMax" name="transactionQuantiteMax" type="hidden">
+                    <input id="transactionType" name="transactionType" type="hidden" required>
                 </form>
             </div>
             <div class="modal-footer">
                 <input type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger btn-lg btn-block" value="Annuler">
-                <input type="submit" value="Vendre" class="btn btn-neutral btn-lg btn-block" form="formVente">
+                <input type="submit" id="submitTransactionForm"  class="btn btn-neutral btn-lg btn-block" form="formTransaction">
             </div>
         </div>
     </div>
 </div>
 <script>
     $(function(){
-        $('.afficherVente').on('click', function(){
-            $("#venteActionModalLabel").text($(this).data('name'));
-            $("#venteActionModalSousLabel").text($(this).data('symbole'));
-            $("#venteQuantite").attr({"max":$(this).data('quantite')});
-            $("#venteQuantiteMax").val($(this).data('quantite'));
-            $("#venteNom").val($(this).data('name'));
+        $.ajax({
+            url: 'http://127.0.0.1:5000/main',
+            contentType: "application/json",
+            dataType: 'json',
+            beforeSend: function(){
+                $('.loader').show();
+            },
+            success: function(jsonArray){
+                $.each(jsonArray, function(index,action){
+                    let nom = action.nom;
+                    let symbole = action.symbole;
+                    let bouton = "<button class='btn btn-sm btn-success animation-on-hover afficherTransaction' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                    $('<tr>').addClass("text-center").append(
+                        $('<td>').text(index+1),
+                        $('<td>').text(nom),
+                        $('<td>').text(symbole),
+                        $('<td>').html("<button class='btn btn-sm btn-neutral animation-on-hover' type='button'>+ d'infos</button>"),
+                        $('<td>').html(bouton)
+                    ).appendTo('#tableClassement');
+                });
+            },
+             complete: function(){
+                $('.loader').hide();
+             }
+
+        });
+        $('.afficherTransaction').on('click', function(){
+            $("#transactionActionModalLabel").text($(this).data('nom'));
+            $("#transactionActionModalSousLabel").text($(this).data('symbole'));
+            $("#transactionType").val($(this).data('type'));
+            if($(this).data('type') === 'VENTE'){
+                $("#transactionQuantite").attr({"max":$(this).data('quantite')});
+                $("#transactionQuantiteMax").val($(this).data('quantite'));
+                $("#submitTransactionForm").val("Vendre")
+            } else{
+                $("#submitTransactionForm").val("Acheterr")
+            }
+            $("#transactionNom").val($(this).data('nom'));
             let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
-            $("#venteDate").val(date);
-            $("#venteActionModal").modal('show');
+            $("#transactionDate").val(date);
+            $("#transactionActionModal").modal('show');
         });
     });
+</script>
+<script>
+
+
 </script>
 <script>
     $(function () {

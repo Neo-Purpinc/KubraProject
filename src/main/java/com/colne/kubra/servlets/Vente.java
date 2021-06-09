@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-@WebServlet("/vente")
+@WebServlet("/transaction")
 public class Vente extends HttpServlet {
     public static final String          CONF_DAO_FACTORY            = "daofactory";
     public static final String          VUE                         = "/home";
