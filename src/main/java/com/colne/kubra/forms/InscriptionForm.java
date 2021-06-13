@@ -12,6 +12,9 @@ import com.colne.kubra.dao.DAOException;
 import com.colne.kubra.dao.UtilisateurDao;
 
 public final class InscriptionForm {
+    /****************************************************************/
+    /************************** ATTRIBUTES **************************/
+    /****************************************************************/
     private static final String CHAMP_EMAIL      = "email";
     private static final String CHAMP_PASS       = "motdepasse";
     private static final String CHAMP_CONF       = "confirmation";

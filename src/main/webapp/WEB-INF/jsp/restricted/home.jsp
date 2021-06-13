@@ -57,7 +57,7 @@
                                         <td><c:out value="${ item.key.nom }"/></td>
                                         <td><c:out value="${ item.key.symbole }"/></td>
                                         <td><c:out value="${ item.value }"/></td>
-                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover afficherTransaction">Vendre</button></td>
+                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -69,7 +69,7 @@
         </div>
     </div>
 </div>
-    <c:import url="../footer.jsp"/>
+ <c:import url="../footer.jsp"/>
 <!-- Mon portefeuille détaillé Modal-->
 <div class="modal fade modal-black" id="monPortefeuilleModal" tabindex="-1" role="dialog" aria-labelledby="monPortefeuilleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -81,6 +81,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="h6 text-center text-primary"><c:out value="${ sessionScope.sessionPortefeuille.porteaction.valeurTotale }"/></div>
                 <div class="h6 text-center sub-title text-primary">Historique des transactions</div>
                 <div class="table-responsive tableDiv" >
                     <table class="table"  id="tablePortefeuille">
@@ -137,7 +138,7 @@
                         <label class="text-primary" for="transactionDate">Date</label>
                         <input type="text" class="form-control datepicker text-center" id="transactionDate" name="transactionDate" required>
                     </div>
-                    <input id="transactionNom" name="transactionNom" type="hidden" required>
+                    <input id="transactionSymbole" name="transactionSymbole" type="hidden" required>
                     <input id="transactionQuantiteMax" name="transactionQuantiteMax" type="hidden">
                     <input id="transactionType" name="transactionType" type="hidden" required>
                 </form>
@@ -150,7 +151,23 @@
     </div>
 </div>
 <script>
-    $(function(){
+    function afficherTransaction(bouton){
+        $("#transactionActionModalLabel").text($(bouton).data('nom'));
+        $("#transactionActionModalSousLabel").text($(bouton).data('symbole'));
+        $("#transactionType").val($(bouton).data('type'));
+        if($(bouton).data('type') === 'VENTE'){
+            $("#transactionQuantite").attr({"max":$(bouton).data('quantite')});
+            $("#transactionQuantiteMax").val($(bouton).data('quantite'));
+            $("#submitTransactionForm").val("Vendre")
+        } else{
+            $("#submitTransactionForm").val("Acheter")
+        }
+        $("#transactionSymbole").val($(bouton).data('symbole'));
+        let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
+        $("#transactionDate").val(date);
+        $("#transactionActionModal").modal('show');
+    }
+    function afficherClassement(){
         $.ajax({
             url: 'http://127.0.0.1:5000/main',
             contentType: "application/json",
@@ -162,7 +179,7 @@
                 $.each(jsonArray, function(index,action){
                     let nom = action.nom;
                     let symbole = action.symbole;
-                    let acheter = "<button class='btn btn-sm btn-success animation-on-hover afficherTransaction' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                    let acheter = "<button class='btn btn-sm btn-success animation-on-hover' onclick='afficherTransaction(this); return false;' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
                     let bouton = "<a class='btn btn-sm btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
                     $('<tr>').addClass("text-center").append(
                         $('<td>').text(index+1),
@@ -173,67 +190,47 @@
                     ).appendTo('#tableClassement');
                 });
             },
-             complete: function(){
+            complete: function(){
                 $('.loader').hide();
-             }
-
-        });
-        $('.afficherTransaction').on('click', function(){
-            $("#transactionActionModalLabel").text($(this).data('nom'));
-            $("#transactionActionModalSousLabel").text($(this).data('symbole'));
-            $("#transactionType").val($(this).data('type'));
-            if($(this).data('type') === 'VENTE'){
-                $("#transactionQuantite").attr({"max":$(this).data('quantite')});
-                $("#transactionQuantiteMax").val($(this).data('quantite'));
-                $("#submitTransactionForm").val("Vendre")
-            } else{
-                $("#submitTransactionForm").val("Acheter")
             }
-            $("#transactionNom").val($(this).data('nom'));
-            let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
-            $("#transactionDate").val(date);
-            $("#transactionActionModal").modal('show');
         });
-    });
-</script>
-<script>
-
-
-</script>
-<script>
-    $(function () {
-        $.notifyDefaults({
-            placement: {
-                from: "bottom",
-                align: 'center'
-            },
-            animate:{
-                enter: "animated fadeInUp",
-                exit: "animated fadeOutDown"
-            },
-            type: 'info'
-        });
-        <c:if test="${ sessionScope.first_time == 1 }">
-        <c:set var="first_time" value="0" scope="session" />
-        $.notify({
-            title: '<h6 class=\'txt-20px\'>Bienvenue</h6>',
-            message: 'La connexion s\'est déroulée avec succès.'
-        });
-        </c:if>
-        <c:if test="${sessionScope.modification == '1'}">
-        <c:set var="modification" value="0" scope="session" />
-        $.notify({
-            title: '<h6 class=\'txt-20px\'>Modification effectuée avec succès</h6>',
-            message: 'Votre mot de passe a bien été modifiée.'
-        });
-        </c:if>
-        <c:if test="${sessionScope.modification == '2'}">
-        <c:set var="modification" value="0" scope="session" />
-        $.notify({
-            title: '<h6 class=\'txt-20px\'>Echec de la modification</h6>',
-            message: 'Veuillez réessayez.'
-        });
-        </c:if>
-
-    });
+    }
+$(function(){
+     $.notifyDefaults({
+         placement: {
+             from: "bottom",
+             align: 'center'
+         },
+         animate:{
+             enter: "animated fadeInUp",
+             exit: "animated fadeOutDown"
+         },
+         type: 'info'
+     });
+     <c:if test="${ sessionScope.first_time == 1 }">
+         <c:remove var="first_time" scope="session" />
+         $.notify({
+         title: '<h6 class=\'txt-20px\'>Bienvenue</h6>',
+         message: 'La connexion s\'est déroulée avec succès.'
+         });
+     </c:if>
+     <c:if test="${sessionScope.modification == 1}">
+         <c:remove var="modification" scope="session" />
+         $.notify({
+         title: '<h6 class=\'txt-20px\'>Modification effectuée avec succès</h6>',
+         message: 'Votre mot de passe a bien été modifiée.'
+         });
+     </c:if>
+     <c:if test="${sessionScope.modification == 2}">
+         <c:remove var="modification" scope="session" />
+         $.notify({
+         title: '<h6 class=\'txt-20px\'>Echec de la modification</h6>',
+         message: 'Veuillez réessayez.'
+         });
+     </c:if>
+    <c:if test="${ empty sessionScope.classement }">
+        <c:set var="classement" value="1" scope="session" />
+        afficherClassement();
+    </c:if>
+});
 </script>

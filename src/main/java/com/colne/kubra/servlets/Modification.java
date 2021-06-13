@@ -43,18 +43,12 @@ public class Modification extends HttpServlet {
         /* Traitement de la requête et récupération du bean en résultant */
         Utilisateur utilisateur = form.modifierInformations( request );
 
-        /* Stockage du formulaire et du bean dans l'objet request */
-        request.setAttribute( ATT_FORM, form );
-        request.setAttribute( ATT_USER, utilisateur );
-
         if ( form.getErreurs().isEmpty() ) {
             session.setAttribute( ATT_MODIFICATION, 1);
-            session.setAttribute( ATT_SESSION_USER, utilisateur );
-            this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         } else {
             session.setAttribute( ATT_MODIFICATION, 2);
-            session.setAttribute( ATT_SESSION_USER, utilisateur );
-            this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         }
+        session.setAttribute( ATT_SESSION_USER, utilisateur );
+        response.sendRedirect( request.getContextPath() + VUE );
     }
 }

@@ -56,8 +56,8 @@ public class Connexion extends HttpServlet {
          */
         if ( form.getErreurs().isEmpty() ) {
             /* Récupération du portefeuille */
-            Porteaction porteaction = porteactionDao.trouver(utilisateur);
             Portefeuille portefeuille = portefeuilleDao.trouver(utilisateur);
+            Porteaction porteaction = porteactionDao.trouver(utilisateur);
             portefeuille.setPorteaction(porteaction);
             /* Ajout des variables sessions contenant le
                bean utilisateur et le bean portefeuille */

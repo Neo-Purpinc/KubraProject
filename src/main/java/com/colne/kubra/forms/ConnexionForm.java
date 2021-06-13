@@ -11,6 +11,9 @@ import com.colne.kubra.dao.UtilisateurDao;
 import org.jasypt.util.password.ConfigurablePasswordEncryptor;
 
 public final class ConnexionForm {
+    /****************************************************************/
+    /************************** ATTRIBUTES **************************/
+    /****************************************************************/
     private static final String CHAMP_EMAIL  = "emailLogin";
     private static final String CHAMP_PASS   = "motdepasseLogin";
     private static final String ALGO_CHIFFREMENT = "SHA-256";

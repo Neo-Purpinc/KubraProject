@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CompteForm {
+    /****************************************************************/
+    /************************** ATTRIBUTES **************************/
+    /****************************************************************/
     private static final String ALGO_CHIFFREMENT    = "SHA-256";
     private static final String CHAMP_ANCIEN_PASS   = "motDePasseInfos";
     private static final String CHAMP_NOUVEAU_PASS  = "nouveauMdpInfos";

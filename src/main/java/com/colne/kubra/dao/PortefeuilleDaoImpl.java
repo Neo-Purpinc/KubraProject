@@ -60,7 +60,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
                 throw new DAOException( "Échec de la création de la transaction, aucune ligne ajoutée dans la table." );
             }
             portefeuille.addTransaction( transaction );
-            portefeuille.getPorteaction().modifier( transaction );
+
         } catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {

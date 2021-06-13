@@ -14,14 +14,14 @@ import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class ActionDaoImpl implements ActionDao{
     private DAOFactory          daoFactory;
-    private static final String SQL_SELECT_PAR_NOM           =   " SELECT * FROM Action WHERE nom = ?;";
+    private static final String SQL_SELECT         =   " SELECT * FROM Action WHERE symbole = ?;";
 
     public ActionDaoImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
     @Override
-    public Action trouver(String nom) throws DAOException {
+    public Action trouver(String symbole) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -29,7 +29,7 @@ public class ActionDaoImpl implements ActionDao{
         try {
             /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_NOM, false, nom );
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT, false, symbole );
             resultSet = preparedStatement.executeQuery();
             /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
             if ( resultSet.next() ) {

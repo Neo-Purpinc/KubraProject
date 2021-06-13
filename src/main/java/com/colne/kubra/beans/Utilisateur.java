@@ -3,12 +3,17 @@ package com.colne.kubra.beans;
 import java.sql.Timestamp;
 
 public class Utilisateur {
-
+    /****************************************************************/
+    /************************** ATTRIBUTES **************************/
+    /****************************************************************/
     private Long      id;
     private String    email;
     private String    motDePasse;
     private Timestamp dateInscription;
 
+    /****************************************************************/
+    /*********************** GETTERS & SETTERS **********************/
+    /****************************************************************/
     public Long getId() {
         return id;
     }
