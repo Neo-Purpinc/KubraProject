@@ -45,9 +45,10 @@
                             <table class="table" id="tablePorteactions">
                                 <thead class="text-center">
                                 <tr>
-                                    <th ><span class="text-primary">Nom</span></th>
-                                    <th ><span class="text-primary">Symbole</span></th>
-                                    <th ><span class="text-primary">Quantité</span></th>
+                                    <th><span class="text-primary">Nom</span></th>
+                                    <th><span class="text-primary">Symbole</span></th>
+                                    <th><span class="text-primary">Valeur</span></th>
+                                    <th><span class="text-primary">Quantité</span></th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -56,6 +57,7 @@
                                     <tr class="text-center">
                                         <td><c:out value="${ item.key.nom }"/></td>
                                         <td><c:out value="${ item.key.symbole }"/></td>
+                                        <td><c:out value="${ sessionScope.sessionPortefeuille.porteaction.actions_valeur[item.key] } EUR"/></td>
                                         <td><c:out value="${ item.value }"/></td>
                                         <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
                                     </tr>

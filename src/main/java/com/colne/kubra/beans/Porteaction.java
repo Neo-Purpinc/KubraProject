@@ -89,10 +89,11 @@ public class Porteaction {
             }
         }
         Iterator<Map.Entry<Action,Double>> iter2 = actions_valeur.entrySet().iterator();
-        while(iter.hasNext()){
+        while(iter2.hasNext()){
             Map.Entry<Action,Double> current2 = iter2.next();
             if(current2.getKey().getId_action().equals(action.getId_action())){
                 iter2.remove();
+                setValeurTotale(valeurTotale+current2.getValue());
                 break;
             }
         }
@@ -116,7 +117,7 @@ public class Porteaction {
         Double valeur =  transaction.getPrix_total();
         Double ancienneValeur = getValeur( action );
         Double nouvelleValeur = ancienneValeur + valeur;
-        setValeurTotale(valeurTotale+transaction.getPrix_total());
+        setValeurTotale(valeurTotale-transaction.getPrix_total());
         setQuantite(action,nouvelleQuantite);
         setValeur(action, nouvelleValeur );
     }
@@ -128,7 +129,7 @@ public class Porteaction {
         Double valeur =  transaction.getPrix_total();
         Double ancienneValeur = getValeur( action );
         Double nouvelleValeur = ancienneValeur - valeur;
-        setValeurTotale(valeurTotale-transaction.getPrix_total());
+        setValeurTotale(valeurTotale+transaction.getPrix_total());
         setQuantite(action,nouvelleQuantite);
         setValeur(action,nouvelleValeur);
     }
@@ -136,7 +137,7 @@ public class Porteaction {
     public void ajouter(Transaction transaction) {
         Action action = transaction.getAction();
         Double valeur = transaction.getPrix_total();
-        valeurTotale += valeur;
+        valeurTotale -= valeur;
         actions_quantites.put(action,transaction.getQuantite());
         actions_valeur.put(action,valeur);
     }
