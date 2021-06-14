@@ -39,9 +39,9 @@ public class TransactionForm {
         Porteaction porteaction = portefeuille.getPorteaction();
         String symbole = request.getParameter( CHAMP_SYMBOLE );
         Double prix = Double.valueOf( request.getParameter( CHAMP_PRIX ) );
-        Integer quantite = Integer.valueOf( request.getParameter( CHAMP_QUANTITE ) );   //Acheté ou vendu
+        Integer quantite = Integer.valueOf( request.getParameter( CHAMP_QUANTITE ) );
         String type = request.getParameter( CHAMP_TYPE );                               //ACHAT ou VENTE
-        String date = request.getParameter( CHAMP_DATE );       //TODO régler le pb de date
+        String date = request.getParameter( CHAMP_DATE );
         //Récupération de l'action
         Action action = actionDao.trouver(symbole);
 
@@ -56,7 +56,12 @@ public class TransactionForm {
                 nouvelleQuantite += porteaction.getQuantite(action);
             }
         }
-
+        //Formattage de la date (DD/MM/YYYY hh:mm:ss -> YYYY-MM-DDDD hh:mm:ss
+        String hms = date.substring(date.length()-9);
+        String jour = date.substring(0,2);
+        String mois = date.substring(3,5);
+        String annee = date.substring(6,10);
+        String dateFormatee = annee+'-'+mois+'-'+jour+hms;
         //Création de la transaction
         Transaction transaction = new Transaction();
         transaction.setId_portefeuille( utilisateur.getId() );
@@ -64,14 +69,15 @@ public class TransactionForm {
         transaction.setPrix_unitaire( prix );
         transaction.setQuantite( quantite );
         transaction.setPrix_total( quantite*prix );
-        transaction.setDate( Timestamp.valueOf(date) );
+        transaction.setDate( Timestamp.valueOf(dateFormatee) );
         transaction.setType( type );
 
+        //Si on avait pas d'actions de cette entreprise avant
         if( !porteaction.existe(transaction.getAction()) ){
             porteactionDao.ajouter(porteaction,transaction);
         }
-        else{
-            if(nouvelleQuantite == 0){
+        else{ //On possédait déjà des actions
+            if(nouvelleQuantite == 0){  //Si on a vendu toutes celles qu'on avait
                 porteactionDao.supprimerAction(porteaction,transaction);
             } else{
                 porteactionDao.modifier( porteaction,transaction );

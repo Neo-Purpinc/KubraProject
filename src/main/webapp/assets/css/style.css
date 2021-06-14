@@ -61,18 +61,41 @@ footer{
 .nav>li {
     float: left;
 }
-.tableDiv {
+#tablePorteactionsDiv {
     overflow: auto;
-    max-height: 650px;
+    min-height: 40rem;
+    height: 40rem;
+    max-height: 40rem;
+}
+#tableClassementDiv{
+    overflow: auto;
+    min-height: 45rem;
+    height: 45rem;
+    max-height: 45rem;
+}
+#tablePortefeuilleDiv{
+    overflow: auto;
+    min-height: 20rem;
+    height: 20rem;
+    max-height: 20rem;
 }
 @media screen and (max-height: 768px){
-    .tableDiv {
-        max-height: 475px;
+    #tablePorteactionsDiv {
+        min-height: 29rem;
+        height: 29rem;
+        max-height: 29rem;
+    }
+    #tableClassementDiv{
+        min-height: 34rem;
+        height: 34rem;
+        max-height: 34rem;
     }
 }
 @media screen and (max-width: 768px){
     .tableDiv {
-        max-height: 475px;
+        min-height: 34rem;
+        height: 34rem;
+        max-height: 34rem;
     }
     #fixMobile {
         margin-bottom: 3rem;
@@ -98,4 +121,13 @@ footer{
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+.btn-vert{
+    background: #85CB33;
+}
+.text-green{
+    color: #85CB33;
+}
+.modal-open .modal.modal-allow-overflow {
+    overflow: visible;
 }

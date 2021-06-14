@@ -7,6 +7,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/loginForm.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/registerForm.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/restricted/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/restricted" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/restricted/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/restricted" />
       </map>
     </option>
   </component>

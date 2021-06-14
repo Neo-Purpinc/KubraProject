@@ -8,7 +8,7 @@
             <div class="row mt-3 w90">
                 <div class="col-12 card">
                     <div class="card-body">
-                        <div class="table-responsive tableDiv">
+                        <div class="table-responsive tableDiv" id="tableClassementDiv">
                             <table class="table" id="tableClassement">
                                 <thead class="text-center">
                                     <tr>
@@ -23,7 +23,10 @@
 
                                 </tbody>
                             </table>
-                            <div class="loader"></div>
+                            <div id="loader-wrapper">
+                                <h2>Veuillez patienter, nous récupérons les données.</h2>
+                                <div class="loader"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,33 +86,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="h6 text-center text-primary"><c:out value="${ sessionScope.sessionPortefeuille.porteaction.valeurTotale }"/></div>
+                <div class="h4 text-center text-primary">Bénéfice/Perte : <span class="${sessionScope.sessionPortefeuille.porteaction.valeurTotale ge 0 ? 'text-green' : 'text-danger'}"><c:out value="${ sessionScope.sessionPortefeuille.porteaction.valeurTotale } EUR"/></span></div>
                 <div class="h6 text-center sub-title text-primary">Historique des transactions</div>
-                <div class="table-responsive tableDiv" >
-                    <table class="table"  id="tablePortefeuille">
-                        <thead class="text-center">
-                        <tr>
-                            <th>Nom</th>
-                            <th>Symbole</th>
-                            <th>Type de transaction</th>
-                            <th>Quantité</th>
-                            <th>Prix Unitaire</th>
-                            <th>Prix Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" >
-                            <tr class="text-center">
-                                <td><c:out value="${ transac.action.nom}"/></td>
-                                <td><c:out value="${ transac.action.symbole}"/></td>
-                                <td class="${ transac.type.equals('ACHAT') ? 'text-info' : 'text-danger'}"><c:out value="${ transac.type }"/></td>
-                                <td><c:out value="${ transac.quantite}"/></td>
-                                <td><c:out value="${ transac.prix_unitaire} EUR"/></td>
-                                <td><c:out value="${ transac.prix_total} EUR"/></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                <div class="card-plain">
+                    <div class="card-body">
+                        <div class="table-responsive tableDiv" id="tablePortefeuilleDiv" >
+                            <table class="table" id="tablePortefeuille">
+                                <thead class="text-center">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Symbole</th>
+                                    <th>Type de transaction</th>
+                                    <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Prix Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${ sessionScope.sessionPortefeuille.transactions }"  var="transac" >
+                                    <tr class="text-center">
+                                        <td><c:out value="${ transac.action.nom}"/></td>
+                                        <td><c:out value="${ transac.action.symbole}"/></td>
+                                        <td><span class="${ transac.type.equals('ACHAT') ? 'text-green' : 'text-danger'}"><c:out value="${ transac.type }"/></span></td>
+                                        <td><c:out value="${ transac.quantite}"/></td>
+                                        <td><c:out value="${ transac.prix_unitaire} EUR"/></td>
+                                        <td><c:out value="${ transac.prix_total} EUR"/></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,15 +137,15 @@
                 <form class="pt-4" id="formTransaction" method="POST" action="transaction">
                     <div class="form-group">
                         <label class="text-primary" for="transactionQuantite">Quantite</label>
-                        <input type="number" class="form-control text-center" min="0" id="transactionQuantite" name="transactionQuantite" placeholder="0" required>
+                        <input type="number" class="form-control text-center" min="0" id="transactionQuantite" name="transactionQuantite" value="0" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary" for="transactionPrix">Prix (€)</label>
-                        <input type="number" min="0" step="0.001" class="form-control text-center" id="transactionPrix" name="transactionPrix" placeholder="valeur à récupérer de l'api et afficher ici" required>
+                        <input type="number" min="0" step="0.001" class="form-control text-center" id="transactionPrix" name="transactionPrix" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary" for="transactionDate">Date</label>
-                        <input type="text" class="form-control datepicker text-center" id="transactionDate" name="transactionDate" required>
+                        <input type="text" id="transactionDate" name="transactionDate" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-target="#transactionDate" required>
                     </div>
                     <input id="transactionSymbole" name="transactionSymbole" type="hidden" required>
                     <input id="transactionQuantiteMax" name="transactionQuantiteMax" type="hidden">
@@ -153,7 +160,37 @@
     </div>
 </div>
 <script>
+
+    /*
+    $.ajax({
+        url: 'http://127.0.0.1:5000/main',
+        contentType: "application/json",
+        dataType: 'json',
+        beforeSend: function(){
+            $('#loader-wrapper').show();
+        },
+        success: function(jsonArray){
+            $.each(jsonArray, function(index,action){
+                let nom = action.Nom;
+                let symbole = action.Symbole;
+                let acheter = "<button class='btn btn-sm btn-success btn-vert animation-on-hover' onclick='afficherTransaction(this); return false;' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                let bouton = "<a class='btn btn-sm btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
+                $('<tr>').addClass("text-center").append(
+                    $('<td>').text(index+1),
+                    $('<td>').text(nom),
+                    $('<td>').text(symbole),
+                    $('<td>').html(bouton),
+                    $('<td>').html(acheter)
+                ).appendTo('#tableClassement');
+            });
+        },
+        complete: function(){
+            $('#loader-wrapper').hide();
+        }
+    });
+    */
     function afficherTransaction(bouton){
+        console.log("Coucou Walid");
         $("#transactionActionModalLabel").text($(bouton).data('nom'));
         $("#transactionActionModalSousLabel").text($(bouton).data('symbole'));
         $("#transactionType").val($(bouton).data('type'));
@@ -165,39 +202,36 @@
             $("#submitTransactionForm").val("Acheter")
         }
         $("#transactionSymbole").val($(bouton).data('symbole'));
-        let date = new Date().toISOString().substr(0, 19).replace('T', ' ');
-        $("#transactionDate").val(date);
-        $("#transactionActionModal").modal('show');
-    }
-    function afficherClassement(){
+        /*
         $.ajax({
-            url: 'http://127.0.0.1:5000/main',
+            url: 'http://127.0.0.1:5000/currentPrice/'+$(bouton).data('symbole'),
             contentType: "application/json",
             dataType: 'json',
-            beforeSend: function(){
-                $('.loader').show();
-            },
+            async: false,
             success: function(jsonArray){
-                $.each(jsonArray, function(index,action){
-                    let nom = action.nom;
-                    let symbole = action.symbole;
-                    let acheter = "<button class='btn btn-sm btn-success animation-on-hover' onclick='afficherTransaction(this); return false;' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
-                    let bouton = "<a class='btn btn-sm btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
-                    $('<tr>').addClass("text-center").append(
-                        $('<td>').text(index+1),
-                        $('<td>').text(nom),
-                        $('<td>').text(symbole),
-                        $('<td>').html(bouton),
-                        $('<td>').html(acheter)
-                    ).appendTo('#tableClassement');
-                });
-            },
-            complete: function(){
-                $('.loader').hide();
+                var jsonParsed = JSON.parse(jsonArray);
+                console.log(jsonArray['last']);
+                console.log(jsonParsed['last']);
+                $("#transactionPrix").val(jsonParsed['last']);
             }
-        });
+        });*/
+        $("#transactionActionModal").modal('show');
     }
 $(function(){
+    $('#transactionDate').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm:ss',
+        icons: {
+            time: "tim-icons icon-watch-time",
+            date: "tim-icons icon-calendar-60",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'tim-icons icon-minimal-left',
+            next: 'tim-icons icon-minimal-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
      $.notifyDefaults({
          placement: {
              from: "bottom",
@@ -230,9 +264,5 @@ $(function(){
          message: 'Veuillez réessayez.'
          });
      </c:if>
-    <c:if test="${ empty sessionScope.classement }">
-        <c:set var="classement" value="1" scope="session" />
-        afficherClassement();
-    </c:if>
 });
 </script>
