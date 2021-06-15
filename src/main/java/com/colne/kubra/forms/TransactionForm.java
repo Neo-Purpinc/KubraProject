@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 
-public class TransactionForm {
+public final class TransactionForm {
     /****************************************************************/
     /************************** ATTRIBUTES **************************/
     /****************************************************************/

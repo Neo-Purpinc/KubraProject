@@ -1,0 +1,30 @@
+package com.colne.kubra.forms;
+
+import com.colne.kubra.beans.Utilisateur;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
+
+import javax.servlet.http.HttpServletRequest;
+
+public final class ContactForm {
+    public static final String CHAMP_MAIL       = "mailContact";
+    public static final String CHAMP_MESSAGE    = "messageContact";
+
+    public ContactForm() {
+    }
+
+    public void envoyerMail(HttpServletRequest request, Utilisateur utilisateur){
+        String message = (String) request.getAttribute( CHAMP_MESSAGE );
+        String mail;
+        if(utilisateur == null){
+            mail = (String) request.getAttribute( CHAMP_MAIL );
+        } else {
+            mail = utilisateur.getEmail();
+        }
+        Email email = new SimpleEmail();
+        email.setHostName("smtp.googlemail.com");
+        email.setSmtpPort(465);
+        email.setSSLOnConnect(true);
+    }
+}
