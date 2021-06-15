@@ -43,34 +43,37 @@
             <div class="row mt-3 w90">
                 <div class="col-12 card" id="fixMobile">
                     <div class="card-body">
-                        <div class="table-responsive tableDiv" id="tablePorteactionsDiv" >
-                            <table class="table" id="tablePorteactions">
-                                <thead class="text-center">
-                                <tr>
-                                    <th><span class="text-primary">Nom</span></th>
-                                    <th><span class="text-primary">Symbole</span></th>
-                                    <th><span class="text-primary">Valeur</span></th>
-                                    <th><span class="text-primary">Quantité</span></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:if test="${ sessionScope.sessionPortefeuille.porteaction.}">
-                                    Vous n'avez aucune action dans votre portefeuille.
-                                    Vous pouvez en ajouter depuis le classement.
-                                </c:if>
-                                <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
-                                    <tr class="text-center">
-                                        <td><c:out value="${ item.key.nom }"/></td>
-                                        <td><c:out value="${ item.key.symbole }"/></td>
-                                        <td><c:out value="${ sessionScope.sessionPortefeuille.porteaction.actions_valeur[item.key] } EUR"/></td>
-                                        <td><c:out value="${ item.value }"/></td>
-                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-block btn-danger animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
+                        <c:if test="${ empty sessionScope.sessionPortefeuille.porteaction.actions_valeur}">
+                            Vous n'avez aucune action dans votre portefeuille.
+                            Vous pouvez en ajouter depuis le classement.
+                        </c:if>
+                        <c:if test="${ !empty sessionScope.sessionPortefeuille.porteaction.actions_valeur}">
+                            <div class="table-responsive tableDiv" id="tablePorteactionsDiv" >
+                                <table class="table" id="tablePorteactions">
+                                    <thead class="text-center">
+                                    <tr>
+                                        <th><span class="text-primary">Nom</span></th>
+                                        <th><span class="text-primary">Symbole</span></th>
+                                        <th><span class="text-primary">Valeur</span></th>
+                                        <th><span class="text-primary">Quantité</span></th>
+                                        <th></th>
                                     </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+
+                                    <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
+                                        <tr class="text-center">
+                                            <td><c:out value="${ item.key.nom }"/></td>
+                                            <td><c:out value="${ item.key.symbole }"/></td>
+                                            <td><c:out value="${ sessionScope.sessionPortefeuille.porteaction.actions_valeur[item.key] } EUR"/></td>
+                                            <td><c:out value="${ item.value }"/></td>
+                                            <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-block btn-danger animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -148,7 +151,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary" for="transactionDate">Date</label>
-                        <input type="text" id="transactionDate" name="transactionDate" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-target="#transactionDate" required>
+                        <input type="text" id="transactionDate" name="transactionDate" class="form-control datetimepicker-input text-center" data-toggle="datetimepicker" data-target="#transactionDate" required>
                     </div>
                     <input id="transactionSymbole" name="transactionSymbole" type="hidden" required>
                     <input id="transactionQuantiteMax" name="transactionQuantiteMax" type="hidden">
@@ -219,6 +222,7 @@
 $(function(){
     $('#transactionDate').datetimepicker({
         format: 'DD/MM/YYYY HH:mm:ss',
+        widgetParent: 'body',
         icons: {
             time: "tim-icons icon-watch-time",
             date: "tim-icons icon-calendar-60",
