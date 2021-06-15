@@ -131,3 +131,7 @@ footer{
 .modal-open .modal.modal-allow-overflow {
     overflow: visible;
 }
+.btn-block{
+    word-wrap: normal;
+    white-space: nowrap;
+}

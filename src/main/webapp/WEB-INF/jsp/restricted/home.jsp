@@ -16,7 +16,6 @@
                                         <th><span class="text-primary">Nom</span></th>
                                         <th><span class="text-primary">Symbole</span></th>
                                         <th></th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,13 +55,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:if test="${ sessionScope.sessionPortefeuille.porteaction.}">
+                                    Vous n'avez aucune action dans votre portefeuille.
+                                    Vous pouvez en ajouter depuis le classement.
+                                </c:if>
                                 <c:forEach items="${ sessionScope.sessionPortefeuille.porteaction.actions_quantites }"  var="item" >
                                     <tr class="text-center">
                                         <td><c:out value="${ item.key.nom }"/></td>
                                         <td><c:out value="${ item.key.symbole }"/></td>
                                         <td><c:out value="${ sessionScope.sessionPortefeuille.porteaction.actions_valeur[item.key] } EUR"/></td>
                                         <td><c:out value="${ item.value }"/></td>
-                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-sm mr-1 btn-danger btn-animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
+                                        <td><button type="button" data-nom="<c:out value="${ item.key.nom }"/>" data-symbole="<c:out value="${ item.key.symbole }"/>" data-quantite="<c:out value="${ item.value }"/>" data-type="VENTE" class="btn btn-block btn-danger animation-on-hover" onclick="afficherTransaction(this); return false;">Vendre</button></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -160,8 +163,6 @@
     </div>
 </div>
 <script>
-
-    /*
     $.ajax({
         url: 'http://127.0.0.1:5000/main',
         contentType: "application/json",
@@ -173,14 +174,17 @@
             $.each(jsonArray, function(index,action){
                 let nom = action.Nom;
                 let symbole = action.Symbole;
-                let acheter = "<button class='btn btn-sm btn-success btn-vert animation-on-hover' onclick='afficherTransaction(this); return false;' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
-                let bouton = "<a class='btn btn-sm btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
+                let boutonAchat = "<button class='btn btn-block btn-primary btn-vert animation-on-hover' onclick='afficherTransaction(this); return false;' type='button' data-nom='"+ nom + "' data-symbole='"+ symbole + "' data-type='ACHAT'>Acheter</button>";
+                let boutonInfos = "<a class='btn btn-block btn-neutral animation-on-hover' href='https://www.boursorama.com/cours/1rP"+symbole+"' target='_blank' >+ d'infos</a>";
+                let boutons = $('<div>').addClass("row").addClass("mr-1").append(
+                    $('<div>').addClass('col-12').addClass('col-xs-6').addClass('mb-2').html(boutonInfos),
+                    $('<div>').addClass('col-12').addClass('col-xs-6').html(boutonAchat)
+                );
                 $('<tr>').addClass("text-center").append(
                     $('<td>').text(index+1),
                     $('<td>').text(nom),
                     $('<td>').text(symbole),
-                    $('<td>').html(bouton),
-                    $('<td>').html(acheter)
+                    $('<td>').html(boutons)
                 ).appendTo('#tableClassement');
             });
         },
@@ -188,9 +192,7 @@
             $('#loader-wrapper').hide();
         }
     });
-    */
     function afficherTransaction(bouton){
-        console.log("Coucou Walid");
         $("#transactionActionModalLabel").text($(bouton).data('nom'));
         $("#transactionActionModalSousLabel").text($(bouton).data('symbole'));
         $("#transactionType").val($(bouton).data('type'));
@@ -202,19 +204,16 @@
             $("#submitTransactionForm").val("Acheter")
         }
         $("#transactionSymbole").val($(bouton).data('symbole'));
-        /*
         $.ajax({
-            url: 'http://127.0.0.1:5000/currentPrice/'+$(bouton).data('symbole'),
+            url: 'http://127.0.0.1:5000/lastPrice/'+$(bouton).data('symbole'),
             contentType: "application/json",
-            dataType: 'json',
+            dataType: 'text',
             async: false,
-            success: function(jsonArray){
-                var jsonParsed = JSON.parse(jsonArray);
-                console.log(jsonArray['last']);
-                console.log(jsonParsed['last']);
-                $("#transactionPrix").val(jsonParsed['last']);
+            success: function(text){
+                console.log(text);
+                $("#transactionPrix").val(text);
             }
-        });*/
+        });
         $("#transactionActionModal").modal('show');
     }
 $(function(){
