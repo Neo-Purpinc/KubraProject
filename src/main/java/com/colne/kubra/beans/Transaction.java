@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Transaction {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private Long        id_portefeuille;
     private Action      action;
     private Integer     quantite;
@@ -15,9 +15,9 @@ public class Transaction {
     private Double      prix_total;
     private String      type;
 
-    /****************************************************************/
-    /*********************** GETTERS & SETTERS **********************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ********************* GETTERS & SETTERS **********************/
+    /* **************************************************************/
     public Long getId_portefeuille() { return this.id_portefeuille; }
     public void setId_portefeuille(Long id_portefeuille) { this.id_portefeuille = id_portefeuille; }
 

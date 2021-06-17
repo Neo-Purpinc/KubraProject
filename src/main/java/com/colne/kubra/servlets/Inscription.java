@@ -15,6 +15,9 @@ import com.colne.kubra.dao.DAOFactory;
 
 @WebServlet("/inscription" )
 public class Inscription extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";

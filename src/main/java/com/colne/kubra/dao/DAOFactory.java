@@ -11,23 +11,36 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DAOFactory {
-
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private static final String     FICHIER_PROPERTIES       = "dao.properties";
     private static final String     PROPERTY_URL             = "url";
     private static final String     PROPERTY_DRIVER          = "driver";
     private static final String     PROPERTY_NOM_UTILISATEUR = "nomutilisateur";
     private static final String     PROPERTY_MOT_DE_PASSE    = "motdepasse";
-    /* package */
+    /* package HikariCP */
     HikariDataSource                connectionPool           = null;
 
-    /* package */
+    /**
+     * package HikariCP
+     * Constructeur
+     * @param connectionPool la DataSource
+     */
     DAOFactory( HikariDataSource connectionPool ) {
         this.connectionPool = connectionPool;
     }
 
-    /*
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+
+    /**
+     * package HikariCP
      * Méthode chargée de récupérer les informations de connexion à la base de
-     * données, charger le driver JDBC et retourner une instance de la Factory
+     * données, charger le driver JDBC et retourner
+     * @return une instance de la Factory
+     * @throws DAOConfigurationException
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {
         Properties properties = new Properties();
@@ -44,7 +57,6 @@ public class DAOFactory {
         if ( fichierProperties == null ) {
             throw new DAOConfigurationException( "Le fichier properties " + FICHIER_PROPERTIES + " est introuvable." );
         }
-
         try {
             properties.load( fichierProperties );
             url = properties.getProperty( PROPERTY_URL );
@@ -89,18 +101,32 @@ public class DAOFactory {
         return instance;
     }
 
-    /* Méthode chargée de fournir une connexion à la base de données */
-    /* package */
-    Connection getConnection() throws SQLException { return connectionPool.getConnection(); }
+    /**
+     * package HikariCP
+     * Méthode chargée de fournir une connexion à la base de données
+     * @return la connexion à la base de données
+     * @throws SQLException
+     */
+    public Connection getConnection() throws SQLException { return connectionPool.getConnection(); }
 
-    /*
-     * Méthodes de récupération de l'implémentation des différents DAO
+    /**
+     * Méthode de récupération de l'implémentation de la couche DAO Utilisateur
+     * @return une implémentation de la DAO Utilisateur
      */
     public UtilisateurDao getUtilisateurDao() { return new UtilisateurDaoImpl( this ); }
-
+    /**
+     * Méthode de récupération de l'implémentation de la couche DAO Portefeuille
+     * @return une implémentation de la DAO Portefeuille
+     */
     public PortefeuilleDao getPortefeuilleDao() { return new PortefeuilleDaoImpl(this); }
-
+    /**
+     * Méthode de récupération de l'implémentation de la couche DAO Porteaction
+     * @return une implémentation de la DAO Porteaction
+     */
     public PorteactionDao getPorteactionDao() { return new PorteactionDaoImpl(this); }
-
+    /**
+     * Méthode de récupération de l'implémentation de la couche DAO Action
+     * @return une implémentation de la DAO Action
+     */
     public ActionDao getActionDao() { return new ActionDaoImpl(this); }
 }

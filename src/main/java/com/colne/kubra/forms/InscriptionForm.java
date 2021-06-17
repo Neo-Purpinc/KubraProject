@@ -12,31 +12,40 @@ import com.colne.kubra.dao.DAOException;
 import com.colne.kubra.dao.UtilisateurDao;
 
 public final class InscriptionForm {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private static final String CHAMP_EMAIL      = "email";
     private static final String CHAMP_PASS       = "motdepasse";
     private static final String CHAMP_CONF       = "confirmation";
-
     private static final String ALGO_CHIFFREMENT = "SHA-256";
-
     private String              resultat;
     private Map<String, String> erreurs          = new HashMap<String, String>();
     private UtilisateurDao      utilisateurDao;
 
+    /**
+     * Constructeur
+     * @param utilisateurDao
+     */
     public InscriptionForm( UtilisateurDao utilisateurDao ) {
         this.utilisateurDao = utilisateurDao;
     }
-
+    /* **************************************************************/
+    /* ************************** GETTER ****************************/
+    /* **************************************************************/
     public Map<String, String> getErreurs() {
         return erreurs;
     }
 
-    public String getResultat() {
-        return resultat;
-    }
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
 
+    /**
+     * Inscrit un nouvel utilisateur en BDD
+     * @param request
+     * @return un bean Utilisateur
+     */
     public Utilisateur inscrireUtilisateur( HttpServletRequest request ) {
         String email = getValeurChamp( request, CHAMP_EMAIL );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
@@ -48,7 +57,7 @@ public final class InscriptionForm {
             traiterMotsDePasse( motDePasse, confirmation, utilisateur );
 
             if ( erreurs.isEmpty() ) {
-                utilisateurDao.creer( utilisateur );
+                utilisateurDao.ajouter( utilisateur );
                 resultat =  "<div class=\"form-group has-success\">\n" +
                             "   <input type=\"text\" value=\"Succès de l'inscription\" class=\"form-control form-control-success\" />\n" +
                             "</div>.";
@@ -67,9 +76,14 @@ public final class InscriptionForm {
         return utilisateur;
     }
 
-    /*
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+    /**
      * Appel à la validation de l'adresse email reçue et initialisation de la
      * propriété email du bean
+     * @param email
+     * @param utilisateur
      */
     private void traiterEmail( String email, Utilisateur utilisateur ) {
         try {
@@ -80,9 +94,12 @@ public final class InscriptionForm {
         utilisateur.setEmail( email );
     }
 
-    /*
+    /**
      * Appel à la validation des mots de passe reçus, chiffrement du mot de
      * passe et initialisation de la propriété motDePasse du bean
+     * @param motDePasse
+     * @param confirmation
+     * @param utilisateur
      */
     private void traiterMotsDePasse( String motDePasse, String confirmation, Utilisateur utilisateur ) {
         try {
@@ -109,8 +126,11 @@ public final class InscriptionForm {
         utilisateur.setMotDePasse( motDePasseChiffre );
     }
 
-
-    /* Validation de l'adresse email */
+    /**
+     * Validation de l'adresse email
+     * @param email
+     * @throws FormValidationException
+     */
     private void validationEmail( String email ) throws FormValidationException {
         if ( email != null ) {
             if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
@@ -123,7 +143,12 @@ public final class InscriptionForm {
         }
     }
 
-    /* Validation des mots de passe */
+    /**
+     * Validation des mots de passe
+     * @param motDePasse
+     * @param confirmation
+     * @throws FormValidationException
+     */
     private void validationMotsDePasse( String motDePasse, String confirmation ) throws FormValidationException {
         if ( motDePasse != null && confirmation != null ) {
             if ( !motDePasse.equals( confirmation ) ) {
@@ -136,16 +161,19 @@ public final class InscriptionForm {
         }
     }
 
-    /*
+    /**
      * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+     * @param champ
+     * @param message
      */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+    /**
+     * @param request
+     * @param nomChamp
+     * @return null si le champ est vide, son contenu sinon
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 @WebServlet("/deconnexion" )
 public class Deconnexion extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String VUE = "/";
 
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {

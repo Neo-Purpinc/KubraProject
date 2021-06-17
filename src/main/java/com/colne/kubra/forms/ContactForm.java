@@ -8,12 +8,25 @@ import org.apache.commons.mail.SimpleEmail;
 import javax.servlet.http.HttpServletRequest;
 
 public final class ContactForm {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String CHAMP_MAIL       = "mailContact";
     public static final String CHAMP_MESSAGE    = "messageContact";
 
-    public ContactForm() {
-    }
+    /**
+     * Constructeur vide
+     */
+    public ContactForm() { }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+    /**
+     * Envoie un mail sur l'adresse de l'entreprise contenant l'adresse de l'utilisateur et un message
+      * @param request la requête qui contient le message et éventuellement l'adresse de l'utilisateur
+     * @param utilisateur le bean si, éventuellement, l'utilisateur est connecté
+     */
     public void envoyerMail(HttpServletRequest request, Utilisateur utilisateur){
         String message = (String) request.getAttribute( CHAMP_MESSAGE );
         String mail;
@@ -26,5 +39,6 @@ public final class ContactForm {
         email.setHostName("smtp.googlemail.com");
         email.setSmtpPort(465);
         email.setSSLOnConnect(true);
+        //TODO FINISH
     }
 }

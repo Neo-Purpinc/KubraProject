@@ -5,5 +5,11 @@ import com.colne.kubra.beans.Porteaction;
 import com.colne.kubra.beans.Utilisateur;
 
 public interface ActionDao {
-    Action trouver( String nom ) throws DAOException;
+    /**
+     * Fonction permettant de récupérer un objet Action à partir de son symbole
+     * @param symbole le symbole de l'action à récupérer
+     * @return l'action correspondante
+     * @throws DAOException
+     */
+    Action trouver( String symbole ) throws DAOException;
 }

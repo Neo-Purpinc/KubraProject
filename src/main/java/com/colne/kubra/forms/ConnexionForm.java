@@ -11,25 +11,38 @@ import com.colne.kubra.dao.UtilisateurDao;
 import org.jasypt.util.password.ConfigurablePasswordEncryptor;
 
 public final class ConnexionForm {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private static final String CHAMP_EMAIL  = "emailLogin";
     private static final String CHAMP_PASS   = "motdepasseLogin";
     private static final String ALGO_CHIFFREMENT = "SHA-256";
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
     private UtilisateurDao      utilisateurDao;
+
+    /**
+     * Constructeur
+     * @param utilisateurDao
+     */
     public ConnexionForm(UtilisateurDao utilisateurDao) { this.utilisateurDao = utilisateurDao; }
 
-    public String getResultat() {
-        return resultat;
-    }
-
+    /* **************************************************************/
+    /* ************************** GETTER ****************************/
+    /* **************************************************************/
     public Map<String, String> getErreurs() {
         return erreurs;
     }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+
+    /**
+     * Connecte un utilisateur
+     * @param request
+     * @return le bean Utilisateur correspondant au compte connecté
+     */
     public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
         /* Récupération des champs du formulaire */
         String email = getValeurChamp( request, CHAMP_EMAIL );
@@ -61,9 +74,13 @@ public final class ConnexionForm {
         return utilisateur;
     }
 
-    /*
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+    /**
      * Appel à la validation de l'adresse email reçue et initialisation de la
      * propriété email du bean
+     * @param email
      */
     private void traiterEmail( String email ) {
         try {
@@ -73,9 +90,11 @@ public final class ConnexionForm {
         }
     }
 
-    /*
+    /**
      * Appel à la validation des mots de passe reçus, chiffrement du mot de
      * passe et initialisation de la propriété motDePasse du bean
+     * @param motDePasse
+     * @param email
      */
     private void traiterMotDePasse(String motDePasse, String email) {
         try {
@@ -86,9 +105,9 @@ public final class ConnexionForm {
     }
 
     /**
-     *
-     * @param motDePasse Le mot de passe entré par l'utilisateur
-     * @param email L'email saisi par l'utilisateur
+     * Validation des mots de passe
+     * @param motDePasse
+     * @param email
      * @throws FormValidationException
      */
     private void validationMotDePasse(String motDePasse,String email) throws FormValidationException {
@@ -116,7 +135,9 @@ public final class ConnexionForm {
     }
 
     /**
-     * Valide l'adresse email saisie.
+     * Validation de l'adresse email
+     * @param email
+     * @throws FormValidationException
      */
     private void validationEmail( String email ) throws FormValidationException {
         if(utilisateurDao.trouver(email) == null ){
@@ -124,14 +145,17 @@ public final class ConnexionForm {
         }
     }
 
-    /*
+    /**
      * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+     * @param champ
+     * @param message
      */
     private void setErreur( String champ, String message ) { erreurs.put( champ, message ); }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+    /**
+     * @param request
+     * @param nomChamp
+     * @return null si le champ est vide, son contenu sinon
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );

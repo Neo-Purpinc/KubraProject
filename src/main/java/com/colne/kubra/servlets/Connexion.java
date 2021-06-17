@@ -20,6 +20,9 @@ import com.colne.kubra.forms.ConnexionForm;
 
 @WebServlet("/connexion" )
 public class Connexion extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String ATT_SESSION_PORTEFEUILLE = "sessionPortefeuille";

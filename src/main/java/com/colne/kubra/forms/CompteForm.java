@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CompteForm {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private static final String ALGO_CHIFFREMENT    = "SHA-256";
     private static final String CHAMP_ANCIEN_PASS   = "motDePasseInfos";
     private static final String CHAMP_NOUVEAU_PASS  = "nouveauMdpInfos";
@@ -19,12 +19,34 @@ public final class CompteForm {
     private Map<String, String> erreurs      = new HashMap<String, String>();
     private UtilisateurDao utilisateurDao;
 
+    /**
+     * Constructeur
+     * @param utilisateurDao
+     */
     public CompteForm(UtilisateurDao utilisateurDao) { this.utilisateurDao = utilisateurDao; }
 
+    /* **************************************************************/
+    /* ********************* GETTERS & SETTERS **********************/
+    /* **************************************************************/
     public Map<String, String> getErreurs() {
         return erreurs;
     }
+    /**
+     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+     * @param champ
+     * @param message
+     */
+    private void setErreur( String champ, String message ) { erreurs.put( champ, message ); }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+
+    /**
+     * Méthode pour modifier les informations dans le bean comme en BDD
+     * @param request
+     * @return le bean Utilisateur à jour
+     */
     public Utilisateur modifierInformations(HttpServletRequest request ) {
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute(ATT_SESSION_USER);
         /* Récupération des champs du formulaire*/
@@ -39,6 +61,19 @@ public final class CompteForm {
         return utilisateur;
     }
 
+
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+
+    /**
+     * Méthode pour modifier le mot de passe d'un utilisateur
+     * @param utilisateur l'utilisateur dont il faut modifier le mot de passe
+     * @param ancienMotDePasse l'ancien mot de passe de l'utilisateur
+     * @param nouveauMotDePasse le nouveau mot de passe
+     * @return le bean Utilisateur à jour
+     * @throws FormValidationException
+     */
     private Utilisateur modifierMotDePasse(Utilisateur utilisateur, String ancienMotDePasse, String nouveauMotDePasse) throws FormValidationException {
         String email = utilisateur.getEmail();
         /*
@@ -68,14 +103,11 @@ public final class CompteForm {
         }
         return utilisateur;
     }
-    /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
-    private void setErreur( String champ, String message ) { erreurs.put( champ, message ); }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+    /**
+     * @param request la requête contenant le champ
+     * @param nomChamp le champ dont la valeur est à récupérer
+     * @return null si champ est vide, son contenu sinon
      */
     private static String getValeurChamp(HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
@@ -85,4 +117,6 @@ public final class CompteForm {
             return valeur;
         }
     }
+
+
 }

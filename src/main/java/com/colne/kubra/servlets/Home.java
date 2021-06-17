@@ -9,10 +9,12 @@ import java.io.IOException;
 
 @WebServlet ("/home")
 public class Home extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String VUE              = "/WEB-INF/jsp/restricted/home.jsp";
     public void doGet(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         /* Affichage de la page home de l'espace membre */
-            //response.sendRedirect( request.getContextPath() + "/" );
             this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {

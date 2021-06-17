@@ -4,16 +4,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Portefeuille {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private Long                    id_portefeuille;
     private Porteaction             porteaction;
-    private ArrayList<Transaction>  transactions = new ArrayList<>();
+    private ArrayList<Transaction>  transactions = new ArrayList<>();   /* Contient */
 
-    /****************************************************************/
-    /*********************** GETTERS & SETTERS **********************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ********************* GETTERS & SETTERS **********************/
+    /* **************************************************************/
     public Long getId_portefeuille() { return id_portefeuille; }
     public void setId_portefeuille(Long id_portefeuille) { this.id_portefeuille = id_portefeuille; }
 
@@ -23,7 +23,9 @@ public class Portefeuille {
     public ArrayList<Transaction> getTransactions() { return transactions; }
     public void setTransactions(ArrayList<Transaction> transactions) { this.transactions = transactions; }
 
-
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
     public void addTransaction(Transaction transaction) {
         this.transactions.add( transaction );
     }

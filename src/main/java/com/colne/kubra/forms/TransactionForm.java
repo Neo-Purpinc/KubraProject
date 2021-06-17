@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 
 public final class TransactionForm {
-    /****************************************************************/
-    /************************** ATTRIBUTES **************************/
-    /****************************************************************/
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String          ATT_SESSION_USER            = "sessionUtilisateur";
     public static final String          ATT_SESSION_PORTEFEUILLE    = "sessionPortefeuille";
     public static final String          CHAMP_SYMBOLE               = "transactionSymbole";
@@ -24,13 +24,26 @@ public final class TransactionForm {
     private PortefeuilleDao portefeuilleDao;
     private PorteactionDao porteactionDao;
     private ActionDao actionDao;
-    
+
+    /**
+     * Constructeur
+     * @param portefeuilleDao
+     * @param porteactionDao
+     * @param actionDao
+     */
     public TransactionForm(PortefeuilleDao portefeuilleDao, PorteactionDao porteactionDao, ActionDao actionDao) {
         this.portefeuilleDao = portefeuilleDao;
         this.porteactionDao = porteactionDao;
         this.actionDao = actionDao;
     }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+    /**
+     * Gère la transaction qui vient d'être effectuée
+     * @param request la requête contenant les informations nécessaires
+     */
     public void ajouterTransaction(HttpServletRequest request){
         //Récupération des champs et attributs nécessaires
         HttpSession session = request.getSession();
@@ -83,6 +96,6 @@ public final class TransactionForm {
                 porteactionDao.modifier( porteaction,transaction );
             }
         }
-        portefeuilleDao.addTransaction( portefeuille,transaction );
+        portefeuilleDao.ajouter( portefeuille,transaction );
     }
 }

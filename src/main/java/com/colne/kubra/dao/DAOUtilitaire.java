@@ -7,15 +7,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public final class DAOUtilitaire {
-
-    /*
+    /**
      * Constructeur caché par défaut (car c'est une classe finale utilitaire,
      * contenant uniquement des méthodes appelées de manière statique)
      */
     private DAOUtilitaire() {
     }
 
-    /* Fermeture silencieuse du resultset */
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
+    /**
+     * Fermeture silencieuse du resultset
+     * @param resultSet le resultSet à fermer
+     */
     public static void fermetureSilencieuse( ResultSet resultSet ) {
         if ( resultSet != null ) {
             try {
@@ -26,7 +31,10 @@ public final class DAOUtilitaire {
         }
     }
 
-    /* Fermeture silencieuse du statement */
+    /**
+     * Fermeture silencieuse du statement
+     * @param statement le resultSet à fermer
+     */
     public static void fermetureSilencieuse( Statement statement ) {
         if ( statement != null ) {
             try {
@@ -37,7 +45,10 @@ public final class DAOUtilitaire {
         }
     }
 
-    /* Fermeture silencieuse de la connexion */
+    /**
+     * Fermeture silencieuse de la connexion
+     * @param connexion la connexion à fermer
+     */
     public static void fermetureSilencieuse( Connection connexion ) {
         if ( connexion != null ) {
             try {
@@ -48,22 +59,36 @@ public final class DAOUtilitaire {
         }
     }
 
-    /* Fermetures silencieuses du statement et de la connexion */
+    /**
+     * Fermetures silencieuses du statement et de la connexion
+     * @param statement le statement à fermer
+     * @param connexion la connexion à fermer
+     */
     public static void fermeturesSilencieuses( Statement statement, Connection connexion ) {
         fermetureSilencieuse( statement );
         fermetureSilencieuse( connexion );
     }
 
-    /* Fermetures silencieuses du resultset, du statement et de la connexion */
+    /**
+     * Fermetures silencieuses du resultset, du statement et de la connexion
+     * @param resultSet le resultSet à fermer
+     * @param statement le statement à fermer
+     * @param connexion la connexion à fermer
+     */
     public static void fermeturesSilencieuses( ResultSet resultSet, Statement statement, Connection connexion ) {
         fermetureSilencieuse( resultSet );
         fermetureSilencieuse( statement );
         fermetureSilencieuse( connexion );
     }
 
-    /*
-     * Initialise la requÃªte prÃ©parÃ©e basÃ©e sur la connexion passÃ©e en argument,
-     * avec la requÃªte SQL et les objets donnÃ©s.
+    /**
+     * Initialise la requête préparée basée sur la connexion passée en argument, avec la requête SQL et les objets données
+     * @param connexion
+     * @param sql requête SQL à effectuer
+     * @param returnGeneratedKeys
+     * @param objets les différents paramètres
+     * @return un objet PreparedStatement
+     * @throws SQLException
      */
     public static PreparedStatement initialisationRequetePreparee( Connection connexion, String sql, boolean returnGeneratedKeys, Object... objets ) throws SQLException {
         PreparedStatement preparedStatement = connexion.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );

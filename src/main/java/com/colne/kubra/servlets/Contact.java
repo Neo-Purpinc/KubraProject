@@ -11,6 +11,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Contact extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String VUE              = "/home";
     public static final String REDIRECTION      = "/";

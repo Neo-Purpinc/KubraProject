@@ -12,6 +12,9 @@ import java.io.IOException;
 
 @WebServlet("/transaction")
 public class AchatVente extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String          CONF_DAO_FACTORY            = "daofactory";
     public static final String          VUE                         = "/home";
     private             ActionDao       actionDao;

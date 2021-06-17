@@ -7,8 +7,11 @@ import java.sql.*;
 import static com.colne.kubra.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
-public class PortefeuilleDaoImpl implements PortefeuilleDao{
-    private DAOFactory          daoFactory;                     //TODO Rajouter date
+public class PortefeuilleDaoImpl implements PortefeuilleDao {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
+    private DAOFactory          daoFactory;
     private static final String SQL_INSERTION_TRANSACTION   = 	" INSERT INTO Portefeuille (id_portefeuille, id_action, quantite, date, prix_unitaire, type)" +
                                                                 " VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_PAR_ID 	        = 	" SELECT *" +
@@ -17,10 +20,17 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
                                                                 " ORDER BY date DESC";
     private static final String SQL_DELETE_PAR_ID 	        = 	" DELETE FROM Portefeuille WHERE id_portefeuille = ?";
 
+    /**
+     * Constructeur
+     * @param daoFactory la Factory permettant la communication avec la base de données
+     */
     PortefeuilleDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
     }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
     @Override
     public Portefeuille trouver(Utilisateur utilisateur) throws DAOException {
         Connection connexion = null;
@@ -46,8 +56,8 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
 
         return portefeuille;
     }
-
-    public Portefeuille addTransaction(Portefeuille portefeuille, Transaction transaction){
+    @Override
+    public Portefeuille ajouter(Portefeuille portefeuille, Transaction transaction){
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -68,7 +78,6 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         }
         return portefeuille;
     }
-
     @Override
     public void supprimer(Portefeuille portefeuille) throws DAOException {
         Connection connexion = null;
@@ -79,7 +88,7 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, false, portefeuille.getId_portefeuille());
             int statut = preparedStatement.executeUpdate();
-            /* Analyse du statut retourné par la requête d'insertion */
+            /* Analyse du statut retourné par la requête de suppression */
             if ( statut == 0 ) {
                 throw new DAOException( "Échec de la suppression du portefeuille, aucune ligne supprimée dans la table." );
             }
@@ -90,10 +99,16 @@ public class PortefeuilleDaoImpl implements PortefeuilleDao{
         }
     }
 
-    /*
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+    /**
      * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table Portefeuille (un
-     * ResultSet) et un bean Transaction.
+     * ResultSet) et un bean Transaction
+     * @param resultSet le résultat de la requête SQL
+     * @return la transaction associée
+     * @throws SQLException
      */
     private static Transaction map(ResultSet resultSet ) throws  SQLException {
         Action action = new Action();

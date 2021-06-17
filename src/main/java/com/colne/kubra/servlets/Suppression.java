@@ -18,6 +18,9 @@ import java.io.IOException;
 
 @WebServlet("/suppression" )
 public class Suppression extends HttpServlet {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String ATT_SESSION_PORTEFEUILLE = "sessionPortefeuille";
@@ -25,6 +28,7 @@ public class Suppression extends HttpServlet {
     private UtilisateurDao utilisateurDao;
     private PortefeuilleDao portefeuilleDao;
     private PorteactionDao porteactionDao;
+
     public void init() throws ServletException {
         /* Récupération d'une instance de notre DAO Utilisateur */
         DAOFactory fac = (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY );

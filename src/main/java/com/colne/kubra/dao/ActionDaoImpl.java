@@ -13,13 +13,26 @@ import static com.colne.kubra.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class ActionDaoImpl implements ActionDao{
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private DAOFactory          daoFactory;
-    private static final String SQL_SELECT         =   " SELECT * FROM Action WHERE symbole = ?;";
+    private static final String SQL_SELECT          =   "SELECT * FROM Action WHERE symbole = ?;";
+    private static final String COLONNE_ID_ACTION   =   "id_action";
+    private static final String COLONNE_NOM         =   "nom";
+    private static final String COLONNE_SYMBOLE     =   "symbole";
 
+    /**
+     * Constructeur
+     * @param daoFactory la Factory permettant la communication avec la base de données
+     */
     public ActionDaoImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
     @Override
     public Action trouver(String symbole) throws DAOException {
         Connection connexion = null;
@@ -43,11 +56,22 @@ public class ActionDaoImpl implements ActionDao{
         return action;
     }
 
-    private Action map(ResultSet resultSet) throws SQLException {
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+    /**
+     * Simple méthode utilitaire permettant de faire la correspondance (le
+     * mapping) entre une ligne issue de la table Action (un
+     * ResultSet) et un bean Action
+     * @param resultSet le résultat de la requête SQL
+     * @return l'action associée
+     * @throws SQLException
+     */
+    private static Action map(ResultSet resultSet) throws SQLException {
         Action action = new Action();
-        action.setId_action( resultSet.getLong("id_action") );
-        action.setNom( resultSet.getString("nom") );
-        action.setSymbole( resultSet.getString("symbole") );
+        action.setId_action( resultSet.getLong(COLONNE_ID_ACTION) );
+        action.setNom( resultSet.getString(COLONNE_NOM) );
+        action.setSymbole( resultSet.getString(COLONNE_SYMBOLE) );
         return action;
     }
 }

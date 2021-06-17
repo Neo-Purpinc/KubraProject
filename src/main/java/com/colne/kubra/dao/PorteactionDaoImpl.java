@@ -13,7 +13,13 @@ import static com.colne.kubra.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.colne.kubra.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 public class PorteactionDaoImpl implements PorteactionDao {
+    /* **************************************************************/
+    /* ************************ ATTRIBUTES **************************/
+    /* **************************************************************/
     private DAOFactory          daoFactory;
+    private static final String COLONNE_ID_ACTION   =   "id_action";
+    private static final String COLONNE_NOM         =   "nom";
+    private static final String COLONNE_SYMBOLE     =   "symbole";
     private static final String SQL_INSERT          =   " INSERT INTO Porteaction (id_utilisateur,id_action,quantite, valeur) VALUES (?,?,?,?)";
     private static final String SQL_SELECT_PAR_ID   =   " SELECT * FROM Porteaction JOIN Action USING(id_action) WHERE id_utilisateur = ? ORDER BY valeur;";
     private static final String SQL_DELETE_PAR_ID 	= 	" DELETE FROM Porteaction WHERE id_utilisateur = ?";
@@ -24,10 +30,18 @@ public class PorteactionDaoImpl implements PorteactionDao {
     private static final String SQL_UPDATE_VENTE    =   " UPDATE Porteaction" +
                                                         " SET quantite = quantite - ?, valeur = valeur - ?" +
                                                         " WHERE id_utilisateur = ? AND id_action = ?";
-    PorteactionDaoImpl( DAOFactory daoFactory ) {
+
+    /**
+     * Constructeur
+     * @param daoFactory la Factory permettant la communication avec la base de données
+     */
+    public PorteactionDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
     }
 
+    /* **************************************************************/
+    /* ********************* PUBLIC FUNCTIONS ***********************/
+    /* **************************************************************/
     @Override
     public Porteaction trouver(Utilisateur utilisateur) throws DAOException {
         Connection connexion = null;
@@ -53,7 +67,7 @@ public class PorteactionDaoImpl implements PorteactionDao {
             }
             porteaction.setActions_quantites(hashmap);
             porteaction.setActions_valeur(hashmap2);
-            porteaction.setValeurTotale(valeurTotal);
+            porteaction.setBenefice_perte(valeurTotal);
         } catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {
@@ -82,7 +96,34 @@ public class PorteactionDaoImpl implements PorteactionDao {
         }
         return porteaction;
     }
-
+    @Override
+    public Porteaction modifier(Porteaction porteaction, Transaction transaction) {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String requete;
+        /* Selon le type de la transaction, on met à jour la requête */
+        if (transaction.getType().equals("VENTE")) {
+            requete = SQL_UPDATE_VENTE;
+        } else {
+            requete = SQL_UPDATE_ACHAT;
+        }
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, requete, false, transaction.getQuantite(),transaction.getPrix_total(),transaction.getId_portefeuille(),transaction.getAction().getId_action());
+            int statut = preparedStatement.executeUpdate();
+            /* Analyse du statut retourné par la requête de modification */
+            if ( statut == 0 ) {
+                throw new DAOException( "Échec de la modification du porteaction, aucune ligne modifiée dans la table." );
+            }
+            porteaction.modifier(transaction);
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( preparedStatement, connexion );
+        }
+        return porteaction;
+    }
     @Override
     public Porteaction supprimerAction(Porteaction porteaction, Transaction transaction) throws DAOException {
         Connection connexion = null;
@@ -93,7 +134,7 @@ public class PorteactionDaoImpl implements PorteactionDao {
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_ROW, false, transaction.getId_portefeuille(),transaction.getAction().getId_action());
             int statut = preparedStatement.executeUpdate();
-            /* Analyse du statut retourné par la requête d'insertion */
+            /* Analyse du statut retourné par la requête de suppression */
             if ( statut == 0 ) {
                 throw new DAOException( "Échec de la suppression de la ligne souhaité, aucune ligne supprimée dans la table." );
             }
@@ -105,7 +146,6 @@ public class PorteactionDaoImpl implements PorteactionDao {
         }
         return porteaction;
     }
-
     @Override
     public void supprimer(Utilisateur utilisateur) throws DAOException {
         Connection connexion = null;
@@ -116,7 +156,7 @@ public class PorteactionDaoImpl implements PorteactionDao {
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, false, utilisateur.getId());
             int statut = preparedStatement.executeUpdate();
-            /* Analyse du statut retourné par la requête d'insertion */
+            /* Analyse du statut retourné par la requête de suppression */
             if ( statut == 0 ) {
                 throw new DAOException( "Échec de la suppression du portefeuille courant, aucune ligne supprimée dans la table." );
             }
@@ -127,39 +167,22 @@ public class PorteactionDaoImpl implements PorteactionDao {
         }
     }
 
-    @Override
-    public Porteaction modifier(Porteaction porteaction, Transaction transaction) {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        String requete;
-        if (transaction.getType().equals("VENTE")) {
-            requete = SQL_UPDATE_VENTE;
-        } else {
-            requete = SQL_UPDATE_ACHAT;
-        }
-        try {
-            /* Récupération d'une connexion depuis la Factory */
-            connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, requete, false, transaction.getQuantite(),transaction.getPrix_total(),transaction.getId_portefeuille(),transaction.getAction().getId_action());
-            int statut = preparedStatement.executeUpdate();
-            /* Analyse du statut retourné par la requête d'insertion */
-            if ( statut == 0 ) {
-                throw new DAOException( "Échec de la suppression du portefeuille courant, aucune ligne supprimée dans la table." );
-            }
-            porteaction.modifier(transaction);
-        } catch ( SQLException e ) {
-            throw new DAOException( e );
-        } finally {
-            fermeturesSilencieuses( preparedStatement, connexion );
-        }
-        return porteaction;
-    }
-
-    private Action map(ResultSet resultSet) throws SQLException {
+    /* **************************************************************/
+    /* ********************* PRIVATE FUNCTIONS **********************/
+    /* **************************************************************/
+    /**
+     * Simple méthode utilitaire permettant de faire la correspondance (le
+     * mapping) entre une ligne issue de la table Porteaction (un
+     * ResultSet) et un bean Action
+     * @param resultSet le résultat de la requête SQL
+     * @return l'action associée
+     * @throws SQLException
+     */
+    private static Action map(ResultSet resultSet) throws SQLException {
         Action action = new Action();
-        action.setId_action( resultSet.getLong("id_action") );
-        action.setNom( resultSet.getString("nom") );
-        action.setSymbole( resultSet.getString("symbole") );
+        action.setId_action( resultSet.getLong(COLONNE_ID_ACTION) );
+        action.setNom( resultSet.getString(COLONNE_NOM) );
+        action.setSymbole( resultSet.getString(COLONNE_SYMBOLE) );
         return action;
     }
 }
